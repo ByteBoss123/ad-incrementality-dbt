@@ -29,6 +29,13 @@ for f in sorted(root.rglob("*.sql")):
         reserved = aliases & SNOWFLAKE_RESERVED
         if reserved:
             bad.append(f"{f.name}: reserved-word alias {reserved}")
+        # Snowflake NUMBER division keeps ~6 decimals (1.0/698032 -> 0.000001),
+        # which silently biased z and MDE. Every division must cast to double.
+        if "/models/" in str(f):
+            for d in tree.find_all(exp.Div):
+                if not (d.this.find(exp.Cast) or isinstance(d.this, exp.Cast)) \
+                        and not (d.expression.find(exp.Cast)):
+                    bad.append(f"{f.name}: fixed-point division {d.sql()[:60]}")
         n += 1
     except Exception as e:
         bad.append(f"{f.name}: {e}")

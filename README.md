@@ -79,7 +79,7 @@ to $63.83 (campaign 1178, $55,662 spend, 95% of total). CPC is similar across ca
 | `validation/validate.py`: pandas + statsmodels recomputation from the raw files, no shared code with the SQL | 0 mismatches on rates, z, CIs, campaign CTR / CPA |
 | `validation/mutation_test.sh`: inject a conflicting cross-sample duplicate, an invalid treatment code, and clicks > impressions | all 3 caught; downstream marts skipped |
 | `pytest sigma/tests`: Sigma client (mocked API) and workbook verifier | 7/7 pass; wrong numbers and missing elements are caught |
-| `validation/snowflake_dialect_check.py`: sqlglot parse of all 62 compiled model and schema-test files as Snowflake SQL | 62/62 parse, no DuckDB-only functions |
+| `validation/snowflake_dialect_check.py`: sqlglot parse of all 62 compiled model and schema-test files as Snowflake SQL | 62/62 parse, no DuckDB-only functions, no reserved-word aliases, no fixed-point divisions |
 
 ## Known limits
 
@@ -93,6 +93,12 @@ to $63.83 (campaign 1178, $55,662 spend, 95% of total). CPC is similar across ca
   The Snowflake mart values match the local validation exactly: visit +26.6% (CI 0.899 to 1.135 pp),
   conversion +60.8% (CI 0.087 to 0.142 pp), 698,032 / 123,705 users, and cost per approved
   conversion of $63.83 / $15.81 / $6.24.
+- **Snowflake precision bug, found and fixed.** Querying the Sigma view on Snowflake showed
+  z = 16.03 and MDE = 0.161 pp for visits, against 15.59 and 0.166 pp from the validation.
+  Snowflake's fixed-point division keeps about 6 decimals, so `1.0 / 698032` became 0.000001
+  and the pooled standard errors came out about 5% too small. DuckDB uses floating point, so
+  local runs never showed it. Every division now casts to `double`, and
+  `snowflake_dialect_check.py` fails on any division that doesn't.
 - **Sigma: code done, live run pending.** The Sigma views, dbt exposure, API client and verifier
   are implemented and tested offline. The workbook itself, and a `verify_workbook.py` run
   against it, need a Sigma account. The build environment cannot reach Sigma.

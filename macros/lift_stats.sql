@@ -25,10 +25,10 @@ stats as (
         *,
         t_cvr - c_cvr as abs_lift,
         {{ safe_divide('t_cvr - c_cvr', 'c_cvr') }} as rel_lift,
-        sqrt(t_cvr * (1 - t_cvr) / nullif(t_users, 0)
-           + c_cvr * (1 - c_cvr) / nullif(c_users, 0)) as se_unpooled,
+        sqrt(t_cvr * (1 - t_cvr) / nullif(cast(t_users as double), 0)
+           + c_cvr * (1 - c_cvr) / nullif(cast(c_users as double), 0)) as se_unpooled,
         sqrt(pooled_cvr * (1 - pooled_cvr)
-           * (1.0 / nullif(t_users, 0) + 1.0 / nullif(c_users, 0))) as se_pooled
+           * (cast(1 as double) / nullif(t_users, 0) + cast(1 as double) / nullif(c_users, 0))) as se_pooled
     from rates
 )
 
