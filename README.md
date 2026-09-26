@@ -88,10 +88,11 @@ to $63.83 (campaign 1178, $55,662 spend, 95% of total). CPC is similar across ca
   source to the full file only needs a change to `_sources.yml`.
 - **No exposure field.** The Criteo `exposure` column and the 12 covariates are not in
   these files, so there is no segment-level or exposure-level analysis.
-- **Executed on DuckDB only so far.** The Snowflake path is ready but not yet run: sources
-  resolve to `RAW.CRITEO.*` / `RAW.ADS.*` under `--target snowflake` (checked with
-  `dbt parse`), and `snowflake/load_to_snowflake.py` loads the raw files. The build
-  environment cannot reach snowflakecomputing.com. See `sigma/SIGMA_WORKBOOK.md` step 0.
+- **Executed on Snowflake (2026-09-26).** `load_to_snowflake.py` loaded 1,677,052 Criteo rows and
+  1,143 ads using key-pair auth, and `dbt build --target snowflake` returned PASS=66 / ERROR=0.
+  The Snowflake mart values match the local validation exactly: visit +26.6% (CI 0.899 to 1.135 pp),
+  conversion +60.8% (CI 0.087 to 0.142 pp), 698,032 / 123,705 users, and cost per approved
+  conversion of $63.83 / $15.81 / $6.24.
 - **Sigma: code done, live run pending.** The Sigma views, dbt exposure, API client and verifier
   are implemented and tested offline. The workbook itself, and a `verify_workbook.py` run
   against it, need a Sigma account. The build environment cannot reach Sigma.
