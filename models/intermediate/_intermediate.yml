@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: int_criteo__users
+    description: De-duplicated Criteo users with treatment, visit and conversion.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "conversion <= visit"}
+    columns:
+      - name: criteo_row_id
+        data_tests: [unique, not_null]
+      - name: samples_containing_user
+        description: Number of the three random samples that drew this user (1-3).
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 1, max_value: 3}

@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: fct_ad_performance
+    description: Ad-grain paid-media performance with efficiency metrics.
+    columns:
+      - name: ad_id
+        data_tests: [unique, not_null]
+      - name: campaign_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: {values: [916, 936, 1178]}
+      - name: ctr
+        description: Click-through rate = clicks / impressions.
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: cpc_usd
+        description: Cost per click = spend / clicks. Null when clicks = 0.
+      - name: cpm_usd
+        description: Cost per thousand impressions = spend * 1000 / impressions.
+      - name: cost_per_approved_conversion_usd
+        description: Spend / approved conversions. Null when no approved conversions.
+      - name: approval_rate
+        description: Approved conversions / total conversions.
+
+  - name: agg_campaign_performance
+    description: Campaign rollup; ratios computed as ratio of sums.
+    columns:
+      - name: campaign_id
+        data_tests: [unique, not_null]
+
+  - name: agg_campaign_segment_performance
+    description: Campaign x age band x gender rollup; ratios computed as ratio of sums.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "ads > 0"}

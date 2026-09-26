@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: sigma_lift_summary
+    description: Incrementality readout shaped for the Sigma "Lift Summary" element.
+    columns:
+      - name: outcome
+        data_tests: [unique, not_null]
+      - name: relative_lift
+        description: Relative lift (share, not percent).
+      - name: abs_lift_pp
+        description: Absolute lift in percentage points.
+  - name: sigma_campaign_efficiency
+    description: Campaign efficiency shaped for the Sigma "Campaign Efficiency" element.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "spend_share between 0 and 1"}
+    columns:
+      - name: campaign
+        data_tests: [unique, not_null]
+  - name: sigma_replication
+    description: Per-sample lift shaped for the Sigma "Replication by Sample" element.
+
+exposures:
+  - name: sigma_ad_incrementality_workbook
+    label: Ad Incrementality & Campaign Efficiency (Sigma)
+    type: dashboard
+    maturity: medium
+    url: "{{ env_var('SIGMA_WORKBOOK_URL', 'https://app.sigmacomputing.com') }}"
+    description: >
+      Sigma workbook built on the Snowflake marts. Element titles must match
+      sigma/verify_workbook.py so its numbers can be checked automatically
+      against validation/validation_results.json.
+    depends_on:
+      - ref('sigma_lift_summary')
+      - ref('sigma_campaign_efficiency')
+      - ref('sigma_replication')
+      - ref('fct_assignment_qa')
+    owner:
+      name: Amarnath Ganta
+      email: amarganta62@gmail.com

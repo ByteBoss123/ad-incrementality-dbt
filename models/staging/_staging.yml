@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: stg_criteo__visit_outcomes
+    description: One row per (sample_seed, user) with treatment and visit outcome.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "criteo_row_id between 0 and 13979591"}
+    columns:
+      - name: criteo_row_id
+        description: Row position in the official Criteo Uplift v2.1 file.
+        data_tests: [not_null]
+      - name: sample_seed
+        data_tests:
+          - accepted_values:
+              arguments: {values: [42, 43, 44]}
+      - name: treatment
+        description: 1 = targeted by advertising, 0 = withheld (control).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: {values: [0, 1]}
+      - name: visit
+        description: 1 if the user visited the advertiser's site during the test.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: {values: [0, 1]}
+
+  - name: stg_criteo__conversion_outcomes
+    description: One row per (sample_seed, user) with treatment and conversion outcome.
+    columns:
+      - name: criteo_row_id
+        data_tests: [not_null]
+      - name: treatment
+        data_tests:
+          - accepted_values:
+              arguments: {values: [0, 1]}
+      - name: conversion
+        description: 1 if the user converted on the advertiser's site during the test.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: {values: [0, 1]}
+
+  - name: stg_ads__ad_performance
+    description: One row per ad with delivery, spend, and conversion counts.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "clicks <= impressions"}
+      - expression_is_true:
+          arguments: {expression: "approved_conversions <= conversions"}
+      - expression_is_true:
+          arguments: {expression: "not (clicks = 0 and spend_usd > 0)"}
+    columns:
+      - name: ad_id
+        data_tests: [unique, not_null]
+      - name: campaign_id
+        data_tests: [not_null]
+      - name: gender
+        data_tests:
+          - accepted_values:
+              arguments: {values: ['M', 'F']}
+      - name: age_band
+        data_tests:
+          - accepted_values:
+              arguments: {values: ['30-34', '35-39', '40-44', '45-49']}
+      - name: spend_usd
+        description: Media spend in USD, rounded to cents.
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0}

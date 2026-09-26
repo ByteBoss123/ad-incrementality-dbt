@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: fct_campaign_lift
+    description: >
+      Headline incrementality readout of ad targeting, one row per outcome
+      (visit, conversion). Randomized comparison, so abs_lift is causal.
+    columns:
+      - name: outcome
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              arguments: {values: ['visit', 'conversion']}
+      - name: t_cvr
+        description: Treatment outcome rate.
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: c_cvr
+        description: Control outcome rate.
+      - name: abs_lift
+        description: Absolute lift (t_cvr - c_cvr), proportion units.
+      - name: rel_lift
+        description: Relative lift = abs_lift / c_cvr.
+      - name: abs_lift_ci95_low
+        description: Lower 95% CI bound on abs_lift (unpooled normal approximation).
+      - name: abs_lift_ci95_high
+        description: Upper 95% CI bound on abs_lift.
+      - name: z_stat
+        description: Pooled two-proportion z statistic.
+      - name: is_readable
+        description: False when either arm has fewer than var('min_conversions_per_arm') positives.
+      - name: is_significant_95
+        description: Readable and |z| >= 1.96.
+      - name: incremental_conversions
+        description: abs_lift x treated users. Outcomes caused by ads, not last-touch attributed ones.
+
+  - name: fct_lift_by_sample
+    description: Lift recomputed on each of the three independent random samples (replication check).
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "t_users + c_users > 0"}
+
+  - name: fct_visit_to_conversion
+    description: >
+      Conversion per visitor by arm. Conditions on a post-assignment event, so it is
+      descriptive, not causal.
+    columns:
+      - name: arm
+        data_tests: [unique, not_null]
+
+  - name: fct_experiment_power
+    description: Minimum detectable effect (alpha 0.05 two-sided, 80% power) per outcome.
+    columns:
+      - name: mde_abs
+        description: Smallest absolute lift this sample could reliably detect.
+      - name: mde_rel
+        description: mde_abs relative to the control rate.
+
+  - name: fct_assignment_qa
+    description: Observed treatment share per sample vs the documented 85% design share.
+    columns:
+      - name: sample_seed
+        data_tests: [unique, not_null]
+      - name: share_gap
+        data_tests:
+          - accepted_range: {arguments: {min_value: -0.01, max_value: 0.01}}

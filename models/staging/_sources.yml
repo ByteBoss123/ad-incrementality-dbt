@@ -1,0 +1,43 @@
+version: 2
+
+sources:
+  - name: criteo
+    database: "{{ 'ad_measurement' if target.type == 'duckdb' else 'RAW' }}"
+    schema: "{{ 'main' if target.type == 'duckdb' else 'CRITEO' }}"
+    description: >
+      Criteo Uplift Modeling Dataset v2.1 (Diemert et al., AdKDD 2018): users in
+      real Criteo incrementality tests, randomly assigned to be targeted by
+      advertising (treatment, ~85%) or withheld (control, ~15%). The full release
+      has 13,979,592 rows. The files here are three hash-seeded random 10% samples
+      (then a 20% test split) of the official file, exported by the public
+      UpliftBench repo (github.com/Aman12x/UpliftBench @ cc85673). row_id is the
+      row position in the official file, so every row traces back to it.
+      Only row_id, y (outcome) and w (treatment) are used; the model-score
+      columns in the files are ignored.
+    meta:
+      external_location: "read_parquet('raw/criteo/predictions_{name}.parquet')"
+    tables:
+      - name: visit_frac0.1_seed42
+        identifier: "{{ 'visit_frac0.1_seed42' if target.type == 'duckdb' else 'VISIT_SEED42' }}"
+      - name: visit_frac0.1_seed43
+        identifier: "{{ 'visit_frac0.1_seed43' if target.type == 'duckdb' else 'VISIT_SEED43' }}"
+      - name: visit_frac0.1_seed44
+        identifier: "{{ 'visit_frac0.1_seed44' if target.type == 'duckdb' else 'VISIT_SEED44' }}"
+      - name: conversion_frac0.1_seed42
+        identifier: "{{ 'conversion_frac0.1_seed42' if target.type == 'duckdb' else 'CONVERSION_SEED42' }}"
+      - name: conversion_frac0.1_seed43
+        identifier: "{{ 'conversion_frac0.1_seed43' if target.type == 'duckdb' else 'CONVERSION_SEED43' }}"
+      - name: conversion_frac0.1_seed44
+        identifier: "{{ 'conversion_frac0.1_seed44' if target.type == 'duckdb' else 'CONVERSION_SEED44' }}"
+
+  - name: raw_ads
+    database: "{{ 'ad_measurement' if target.type == 'duckdb' else 'RAW' }}"
+    schema: "{{ 'main' if target.type == 'duckdb' else 'ADS' }}"
+    description: >
+      Facebook ad-level campaign export from an anonymous organisation's social
+      media ad campaigns (Kaggle "Sales Conversion Optimization"). One row per ad.
+    meta:
+      external_location: "read_csv('raw/{name}.csv', header = true, all_varchar = true)"
+    tables:
+      - name: KAG_conversion_data
+        identifier: "{{ 'KAG_conversion_data' if target.type == 'duckdb' else 'KAG_CONVERSION_DATA' }}"

@@ -1,0 +1,108 @@
+{
+  "experiment": {
+    "users": 821737,
+    "treated": 698032,
+    "control": 123705,
+    "users_in_multiple_samples": 16701,
+    "visit": {
+      "t_rate_pct": 4.845,
+      "c_rate_pct": 3.828,
+      "abs_lift_pp": 1.0173,
+      "ci95_pp": [
+        0.8991,
+        1.1354
+      ],
+      "rel_lift_pct": 26.6,
+      "z": 15.59,
+      "p_value": 7.98522451734782e-55,
+      "incremental": 7101.0
+    },
+    "conversion": {
+      "t_rate_pct": 0.303,
+      "c_rate_pct": 0.188,
+      "abs_lift_pp": 0.1145,
+      "ci95_pp": [
+        0.0871,
+        0.1419
+      ],
+      "rel_lift_pct": 60.8,
+      "z": 6.96,
+      "p_value": 3.523751257364223e-12,
+      "incremental": 799.0
+    }
+  },
+  "replication": {
+    "conversion": {
+      "rel_lift_pct_by_seed": {
+        "42": 74.9,
+        "43": 25.6,
+        "44": 97.1
+      },
+      "cochran_q": 6.29,
+      "df": 2,
+      "p_value": 0.0431
+    },
+    "visit": {
+      "rel_lift_pct_by_seed": {
+        "42": 30.6,
+        "43": 25.7,
+        "44": 23.7
+      },
+      "cochran_q": 2.2,
+      "df": 2,
+      "p_value": 0.333
+    }
+  },
+  "srm": {
+    "42": {
+      "t_share_pct": 84.952,
+      "chi2": 0.502,
+      "p_value": 0.4787
+    },
+    "43": {
+      "t_share_pct": 84.969,
+      "chi2": 0.215,
+      "p_value": 0.6429
+    },
+    "44": {
+      "t_share_pct": 84.932,
+      "chi2": 1.011,
+      "p_value": 0.3146
+    }
+  },
+  "power": {
+    "visit": {
+      "mde_abs_pp": 0.1658,
+      "mde_rel_pct": 4.3
+    },
+    "conversion": {
+      "mde_abs_pp": 0.0375,
+      "mde_rel_pct": 19.9
+    }
+  },
+  "campaigns": {
+    "916": {
+      "ads": 54,
+      "spend": 149.71,
+      "ctr_pct": 0.0234,
+      "cpc": 1.32,
+      "cost_per_approved_conv": 6.24
+    },
+    "936": {
+      "ads": 464,
+      "spend": 2893.37,
+      "ctr_pct": 0.0244,
+      "cpc": 1.46,
+      "cost_per_approved_conv": 15.81
+    },
+    "1178": {
+      "ads": 625,
+      "spend": 55662.15,
+      "ctr_pct": 0.0176,
+      "cpc": 1.54,
+      "cost_per_approved_conv": 63.83
+    }
+  },
+  "ads": 1143,
+  "reconciliation_failures": []
+}
