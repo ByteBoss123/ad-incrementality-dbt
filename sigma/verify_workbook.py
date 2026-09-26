@@ -47,7 +47,7 @@ def expectations(v: dict) -> list[tuple[str, str, str, str, float, float]]:
             ("Lift Summary", "outcome", o, "ci95_high_pp", e[o]["ci95_pp"][1], 0.0006),
         ]
         for seed, rl in v["replication"][o]["rel_lift_pct_by_seed"].items():
-            out.append(("Replication by Sample", "sample", f"{o}|{seed}", "relative_lift", rl / 100, 0.0006))
+            out.append(("Replication by Sample", "sample_id", f"{o}|{seed}", "relative_lift", rl / 100, 0.0006))
     for cid, c in v["campaigns"].items():
         out.append(("Campaign Efficiency", "campaign", cid, "cost_per_approved_conversion_usd",
                     c["cost_per_approved_conv"], 0.006))
@@ -62,7 +62,7 @@ def verify(exports: dict[str, list[dict]], v: dict) -> list[str]:
     for title, rows in exports.items():
         if title == "Replication by Sample":
             normed = [{norm(k): val for k, val in r.items()} for r in rows]
-            indexed[title] = {f"{r['outcome'].strip().lower()}|{str(r['sample']).strip()}": r for r in normed}
+            indexed[title] = {f"{r['outcome'].strip().lower()}|{str(r['sample_id']).strip()}": r for r in normed}
         elif title in REQUIRED:
             key = {"Lift Summary": "outcome", "Campaign Efficiency": "campaign", "Assignment QA": "sample_seed"}[title]
             indexed[title] = rows_by(rows, key)

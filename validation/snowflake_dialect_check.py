@@ -8,6 +8,7 @@ import pathlib, re, sys
 import sqlglot
 from sqlglot import exp
 
+SNOWFLAKE_RESERVED = {"sample", "tablesample", "qualify", "lateral", "regexp", "rlike", "ilike", "minus", "increment", "connect", "start", "trigger", "window", "localtime", "localtimestamp"}
 DUCKDB_ONLY = {"read_csv", "read_csv_auto", "read_parquet", "list_value", "struct_pack"}
 root = pathlib.Path("target/compiled/ad_measurement/models")
 bad, n = [], 0
@@ -24,6 +25,10 @@ for f in sorted(root.rglob("*.sql")):
         hit = (funcs | anon) & DUCKDB_ONLY
         if hit:
             bad.append(f"{f.name}: duckdb-only {hit}")
+        aliases = {a.alias.lower() for a in tree.find_all(exp.Alias)}
+        reserved = aliases & SNOWFLAKE_RESERVED
+        if reserved:
+            bad.append(f"{f.name}: reserved-word alias {reserved}")
         n += 1
     except Exception as e:
         bad.append(f"{f.name}: {e}")

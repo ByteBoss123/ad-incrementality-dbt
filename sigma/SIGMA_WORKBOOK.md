@@ -45,7 +45,7 @@ because the verifier finds elements by title.
 | Visit lift | KPI | Lift Summary | `Max(If([Outcome] = "visit", [Relative Lift]))` |
 | Conversion lift | KPI | Lift Summary | `Max(If([Outcome] = "conversion", [Relative Lift]))` |
 | **Replication by Sample** | Table | `DBT_SIGMA.SIGMA_REPLICATION` | All columns |
-| Replication chart | Bar | Replication by Sample | X = Sample, Y = Relative Lift, Color = Outcome |
+| Replication chart | Bar | Replication by Sample | X = Sample Id, Y = Relative Lift, Color = Outcome |
 | **Assignment QA** | Table | `DBT_MARTS.FCT_ASSIGNMENT_QA` | Conditional format Share Gap red when `Abs([Share Gap]) > 0.005` |
 
 **Page "Campaign Efficiency"**

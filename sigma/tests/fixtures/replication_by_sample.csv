@@ -1,4 +1,4 @@
-Outcome,Sample,Targeted Users,Control Users,Relative Lift,Abs Lift Pp,Is Significant 95
+Outcome,Sample Id,Targeted Users,Control Users,Relative Lift,Abs Lift Pp,Is Significant 95
 visit,42,237522.0,42073.0,0.305662219076499,1.1355264621409642,True
 visit,43,237377.0,41993.0,0.25712377323710184,0.9913161452405589,True
 visit,44,237437.0,42124.0,0.2371248813910646,0.9243164353910551,True

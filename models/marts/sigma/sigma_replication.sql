@@ -1,7 +1,7 @@
 -- BI-facing replication view: lift per independent random sample.
 select
     outcome,
-    cast(sample_seed as varchar) as sample,
+    cast(sample_seed as varchar) as sample_id,
     t_users                      as targeted_users,
     c_users                      as control_users,
     rel_lift                     as relative_lift,
