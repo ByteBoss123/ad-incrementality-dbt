@@ -10,9 +10,7 @@
 | Automated workbook QA: pulls each Sigma element and checks 20 values against `validation/validation_results.json` | `sigma/verify_workbook.py` | Unit-tested: passes on correct data, catches wrong numbers and missing elements |
 | Tests | `sigma/tests/test_sigma.py` | 7/7 pass |
 
-**Not yet done:** building the workbook in Sigma and running `verify_workbook.py` against it.
-Sigma is a hosted service that this build environment cannot reach, so the live API has not
-been called yet.
+**Status:** built, published and verified on 2026-09-26. See the README for the workbook link and matched values.
 
 ## 1. Snowflake (once)
 

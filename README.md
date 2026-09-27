@@ -101,9 +101,12 @@ to $63.83 (campaign 1178, $55,662 spend, 95% of total). CPC is similar across ca
   `snowflake_dialect_check.py` fails on any division that doesn't.
   After the fix, `dbt build --target snowflake` again returned PASS=66, and the Snowflake view gives
   z = 15.59 / 6.96 and MDE = 0.1658 / 0.0375 pp, matching the validation.
-- **Sigma: code done, live run pending.** The Sigma views, dbt exposure, API client and verifier
-  are implemented and tested offline. The workbook itself, and a `verify_workbook.py` run
-  against it, need a Sigma account. The build environment cannot reach Sigma.
+- **Sigma: published and verified (2026-09-26).** Workbook "Ad Incrementality & Campaign Efficiency"
+  (https://app.sigmacomputing.com/george-mason-university/workbook/Ad-Incrementality-and-Campaign-Efficiency-1KGcOqLiT16T3wx87f0ZH2)
+  has 4 Custom SQL elements on the Snowflake connection: lift summary, replication by sample, assignment QA
+  and campaign efficiency. Querying the published elements through Sigma returned z = 15.59 / 6.96,
+  lift +26.6% / +60.8%, per-sample lift 30.6 / 25.7 / 23.7% (visit), treatment share 84.93-84.97%, and
+  cost per approved conversion $63.83 / $15.81 / $6.24, all matching `validation_results.json`.
 - p-values, SRM and replication tests are computed in Python, because a normal CDF is not
   portable across DuckDB and Snowflake SQL.
 
