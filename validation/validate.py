@@ -97,6 +97,34 @@ out["campaigns"] = {int(k): dict(ads=int(m.loc[k, "ads"]), spend=round(v.spend, 
                                  cpc=round(v.spend / v.clk, 2),
                                  cost_per_approved_conv=round(v.spend / v.appr, 2))
                     for k, v in g.iterrows()}
+# ---------- CPA drivers ----------
+import math
+best = g.assign(cpa=g.spend / g.appr).cpa.idxmin()
+bcpc, bcpac, bcpa = g.loc[best, "spend"] / g.loc[best, "clk"], g.loc[best, "clk"] / g.loc[best, "appr"], g.loc[best, "spend"] / g.loc[best, "appr"]
+dm = mart("fct_cpa_drivers").set_index("campaign_id")
+drivers = {}
+for cid, r in g.iterrows():
+    cpa = r.spend / r.appr
+    if cid == best:
+        continue
+    gap = math.log(cpa / bcpa)
+    cpc_share = math.log((r.spend / r.clk) / bcpc) / gap
+    conv_share = math.log((r.clk / r.appr) / bcpac) / gap
+    check(f"cpc_share_{cid}", cpc_share, dm.loc[cid, "cpc_share_of_gap"], 1e-9)
+    check(f"conv_share_{cid}", conv_share, dm.loc[cid, "conversion_rate_share_of_gap"], 1e-9)
+    drivers[int(cid)] = dict(cpa_ratio_vs_best=round(cpa / bcpa, 2), cpc_share_pct=round(100 * cpc_share, 1),
+                             conversion_rate_share_pct=round(100 * conv_share, 1),
+                             clicks_per_approved_conversion=round(r.clk / r.appr, 1))
+out["cpa_drivers"] = dict(best_campaign=int(best), best_clicks_per_approved_conversion=round(bcpac, 1), campaigns=drivers)
+a["age_band"] = a["age"]
+seg = a[a.xyz_campaign_id == 1178].groupby("age_band").agg(spend=("Spent", "sum"), appr=("Approved_Conversion", "sum"))
+seg["spend_share"] = seg.spend / seg.spend.sum(); seg["conv_share"] = seg.appr / seg.appr.sum(); seg["cpa"] = seg.spend / seg.appr
+sm = mart("fct_segment_cpa_drivers"); sm = sm[sm.campaign_id == 1178].set_index("age_band")
+for ab, r in seg.iterrows():
+    check(f"seg_cpa_{ab}", r.cpa, sm.loc[ab, "cpa_usd"], 1e-6)
+    check(f"seg_share_{ab}", r.spend_share, sm.loc[ab, "spend_share"], 1e-9)
+out["segment_drivers_1178"] = {ab: dict(spend_share_pct=round(100 * r.spend_share, 1), conversion_share_pct=round(100 * r.conv_share, 1),
+                                        cpa=round(r.cpa, 2)) for ab, r in seg.iterrows()}
 out["ads"] = len(a)
 out["reconciliation_failures"] = failures
 print(json.dumps(out, indent=2, default=float))

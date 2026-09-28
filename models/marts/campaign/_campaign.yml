@@ -35,3 +35,26 @@ models:
     data_tests:
       - expression_is_true:
           arguments: {expression: "ads > 0"}
+
+  - name: fct_cpa_drivers
+    description: >
+      Decomposes each campaign's CPA gap versus the lowest-CPA campaign into click cost (CPC)
+      and click-to-conversion rate, using CPA = CPC x clicks per approved conversion.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "abs(cpa_usd - cpc_usd * clicks_per_approved_conversion) < 1e-6"}
+      - expression_is_true:
+          arguments: {expression: "cpc_share_of_gap is null or abs(cpc_share_of_gap + conversion_rate_share_of_gap - 1) < 1e-9"}
+    columns:
+      - name: campaign_id
+        data_tests: [unique, not_null]
+
+  - name: fct_segment_cpa_drivers
+    description: Campaign x age band spend share, conversion share and CPA.
+    columns:
+      - name: spend_share
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: conversion_share
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}

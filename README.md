@@ -34,7 +34,7 @@ The **Sigma layer** (`sigma/`) has a REST API client and `verify_workbook.py`, w
 each workbook element from Sigma and checks 20 values against the independent validation
 results. Build steps are in `sigma/SIGMA_WORKBOOK.md`.
 
-- 15 models (12 core + 3 Sigma-facing views) and 51 data tests. The tests are built-in, custom generic (`accepted_range`,
+- 17 models (14 core + 3 Sigma-facing views) and 57 data tests. The tests are built-in, custom generic (`accepted_range`,
   `expression_is_true`) and 4 singular tests: sample de-duplication agreement,
   staging row preservation, lift reconciliation and rollup reconciliation.
 - Lift math lives in one macro (`lift_from_counts`), so every readout uses identical formulas.
@@ -71,11 +71,19 @@ Visiting happens after assignment, so this comparison is not causal.
 to $63.83 (campaign 1178, $55,662 spend, 95% of total). CPC is similar across campaigns
 ($1.32 to $1.54), so most of the spend goes to the least efficient campaign.
 
+**CPA drivers (`fct_cpa_drivers`, `fct_segment_cpa_drivers`).** CPA = CPC x clicks per approved
+conversion, so the log gap to the best campaign splits exactly into a click-cost part and a
+click-to-conversion part. For campaign 1178 (10.2x the CPA of campaign 916), 93.4% of the gap comes from
+click-to-conversion rate (41.4 vs 4.7 clicks per approved conversion) and 6.6% from CPC. Inside 1178,
+CPA rises with every age band: ages 45-49 take 34.2% of spend but 19.4% of approved conversions
+($112.71 CPA), versus 26.6% of spend and 45.3% of conversions for ages 30-34 ($37.43 CPA). Both are
+recomputed independently in `validate.py`.
+
 ## Verification
 
 | Check | Result |
 |---|---|
-| `dbt build` | PASS=66 (15 models + 51 tests), 0 warn, 0 error |
+| `dbt build` (DuckDB) | PASS=74 (17 models + 57 tests), 0 warn, 0 error |
 | `validation/validate.py`: pandas + statsmodels recomputation from the raw files, no shared code with the SQL | 0 mismatches on rates, z, CIs, campaign CTR / CPA |
 | `validation/mutation_test.sh`: inject a conflicting cross-sample duplicate, an invalid treatment code, and clicks > impressions | all 3 caught; downstream marts skipped |
 | `pytest sigma/tests`: Sigma client (mocked API) and workbook verifier | 7/7 pass; wrong numbers and missing elements are caught |

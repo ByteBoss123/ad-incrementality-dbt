@@ -103,6 +103,46 @@
       "cost_per_approved_conv": 63.83
     }
   },
+  "cpa_drivers": {
+    "best_campaign": 916,
+    "best_clicks_per_approved_conversion": 4.7,
+    "campaigns": {
+      "936": {
+        "cpa_ratio_vs_best": 2.53,
+        "cpc_share_pct": 10.3,
+        "conversion_rate_share_pct": 89.7,
+        "clicks_per_approved_conversion": 10.8
+      },
+      "1178": {
+        "cpa_ratio_vs_best": 10.23,
+        "cpc_share_pct": 6.6,
+        "conversion_rate_share_pct": 93.4,
+        "clicks_per_approved_conversion": 41.4
+      }
+    }
+  },
+  "segment_drivers_1178": {
+    "30-34": {
+      "spend_share_pct": 26.6,
+      "conversion_share_pct": 45.3,
+      "cpa": 37.43
+    },
+    "35-39": {
+      "spend_share_pct": 19.2,
+      "conversion_share_pct": 19.2,
+      "cpa": 64.1
+    },
+    "40-44": {
+      "spend_share_pct": 20.0,
+      "conversion_share_pct": 16.2,
+      "cpa": 78.88
+    },
+    "45-49": {
+      "spend_share_pct": 34.2,
+      "conversion_share_pct": 19.4,
+      "cpa": 112.71
+    }
+  },
   "ads": 1143,
   "reconciliation_failures": []
 }
