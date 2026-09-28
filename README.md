@@ -1,8 +1,21 @@
-# Ad Incrementality & Campaign Performance Analytics Warehouse (dbt)
+# Ad Incrementality & Campaign Performance Analytics Warehouse
 
-A dbt project that turns real advertising data into tested, documented measurement
-marts. It has two parts: an incrementality readout built on Criteo's randomized
-ad-targeting experiments, and a paid-media campaign efficiency layer.
+**Stack:** dbt, Snowflake, Sigma, SQL, Python (DuckDB for local runs)
+
+## Business problem
+An advertiser spending on paid media needs two answers: **did the ads cause extra visits and
+conversions, or would those customers have converted anyway?** And **where is the budget being
+wasted?** Attribution dashboards cannot answer the first question. Only a randomized holdout
+can, and the answer is only trustworthy if the data, the statistics and the reporting layer are
+all tested.
+
+## STAR summary
+| | |
+|---|---|
+| **Situation** | Criteo ran randomized ad-targeting tests: ~85% of users could see ads, ~15% were held out. Separately, a Facebook ad account spread $58.7K across 3 campaigns with no view of which spend was efficient. |
+| **Task** | Build a trusted measurement layer: tested dbt models on Snowflake that compute incrementality with proper QA, a campaign efficiency layer, and a Sigma workbook for self-service reporting, with every number independently verified. |
+| **Action** | Modeled 17 dbt models with 57 data tests (staging, marts, Sigma views); put lift math in one macro; added sample-ratio, statistical-power and replication checks; decomposed cost per conversion into click cost vs click-to-conversion rate; loaded to Snowflake with key-pair auth and published a Sigma workbook; recomputed every figure in pandas/statsmodels with no shared code. |
+| **Result** | **+26.6% visits and +60.8% conversions** caused by the ads (p<1e-11, 821,737 users), with no sample-ratio mismatch. Found a **10x cost-per-conversion gap**: 93% of it comes from click-to-conversion rate, not CPC, and ages 45-49 take 34% of the top campaign's spend at 3x the CPA of ages 30-34. Caught and fixed a Snowflake precision bug that inflated z-scores by about 3%. |
 
 ## Data (real-world, public)
 
