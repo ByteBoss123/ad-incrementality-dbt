@@ -2,20 +2,25 @@
 
 **Stack:** dbt, Snowflake, Sigma, SQL, Python (DuckDB for local runs)
 
-## Business problem
-An advertiser spending on paid media needs two answers: **did the ads cause extra visits and
-conversions, or would those customers have converted anyway?** And **where is the budget being
-wasted?** Attribution dashboards cannot answer the first question. Only a randomized holdout
-can, and the answer is only trustworthy if the data, the statistics and the reporting layer are
-all tested.
+## Business Problem
+An advertiser spending on paid media needs two answers: **did the ads actually cause extra visits and
+conversions, or would those customers have converted anyway?** And **where is the budget being wasted?**
+Attribution dashboards cannot answer the first question; only a randomized holdout can. The answer is
+only trustworthy if the data, the statistics and the reporting layer are all tested.
 
-## STAR summary
-| | |
-|---|---|
-| **Situation** | Criteo ran randomized ad-targeting tests: ~85% of users could see ads, ~15% were held out. Separately, a Facebook ad account spread $58.7K across 3 campaigns with no view of which spend was efficient. |
-| **Task** | Build a trusted measurement layer: tested dbt models on Snowflake that compute incrementality with proper QA, a campaign efficiency layer, and a Sigma workbook for self-service reporting, with every number independently verified. |
-| **Action** | Modeled 17 dbt models with 57 data tests (staging, marts, Sigma views); put lift math in one macro; added sample-ratio, statistical-power and replication checks; decomposed cost per conversion into click cost vs click-to-conversion rate; loaded to Snowflake with key-pair auth and published a Sigma workbook; recomputed every figure in pandas/statsmodels with no shared code. |
-| **Result** | **+26.6% visits and +60.8% conversions** caused by the ads (p<1e-11, 821,737 users), with no sample-ratio mismatch. Found a **10x cost-per-conversion gap**: 93% of it comes from click-to-conversion rate, not CPC, and ages 45-49 take 34% of the top campaign's spend at 3x the CPA of ages 30-34. Caught and fixed a Snowflake precision bug that inflated z-scores by about 3%. |
+## Steps Taken to Resolve
+1. **Sourced real experiment data:** 821,737 users from Criteo's randomized ad-targeting tests (~85% could see ads, ~15% held out) and 1,143 Facebook ads across 3 campaigns ($58.7K spend).
+2. **Modeled a tested dbt layer:** 17 models with 57 data tests across staging, intermediate, marts and Sigma-facing views; all lift math lives in one macro so every readout uses identical formulas.
+3. **Built experiment QA into the models:** sample-ratio checks, minimum detectable effect at 80% power, a readability guardrail for small slices, and replication across three independent samples.
+4. **Decomposed campaign efficiency:** split each campaign's cost-per-conversion gap into click cost (CPC) versus click-to-conversion rate, and profiled spend and conversions by age band.
+5. **Deployed to Snowflake and Sigma:** loaded the data with key-pair auth, ran `dbt build` on Snowflake, and published a Sigma workbook for self-service reporting.
+6. **Verified every number independently:** recomputed all results in pandas/statsmodels with no shared code, and ran mutation tests that inject bad data to prove the tests catch it.
+
+## Achievements
+- Measured **+26.6% visits and +60.8% conversions** caused by the ads (p<1e-11), with no sample-ratio mismatch.
+- Found a **10x cost-per-conversion gap**: **93%** of it comes from click-to-conversion rate, not click cost; ages 45-49 take **34%** of the top campaign's spend at **3x** the CPA of ages 30-34.
+- **Caught and fixed a Snowflake precision bug** (fixed-point division) that inflated z-scores by about 3%, and added an automated check that blocks it from coming back.
+- `dbt build` passes on Snowflake (PASS=66 for the 15 core models and 51 tests) and locally with the 2 driver models (PASS=74); the independent Python recompute matches with **0 mismatches**.
 
 ## Data (real-world, public)
 
@@ -38,7 +43,8 @@ sources  (6 Criteo parquet samples, 1 ads CSV)
                                 fct_experiment_power, fct_assignment_qa,
                                 fct_visit_to_conversion                          (tables)
           └─ marts/campaign     fct_ad_performance, agg_campaign_performance,
-                                agg_campaign_segment_performance                 (tables)
+                                agg_campaign_segment_performance,
+                                fct_cpa_drivers, fct_segment_cpa_drivers         (tables)
               └─ marts/sigma    sigma_lift_summary, sigma_campaign_efficiency,
                                 sigma_replication  ──> exposure: Sigma workbook  (views)
 ```
