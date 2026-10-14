@@ -148,3 +148,11 @@ python validation/validate.py
 dbt compile --profiles-dir . && python validation/snowflake_dialect_check.py
 dbt docs generate --profiles-dir . && dbt docs serve --profiles-dir .
 ```
+
+## October 14 local reproducibility review
+
+Executed the complete DuckDB dbt build: 17 models and 57 tests passed (PASS=74, plus one no-op exposure).
+Independent pandas/statsmodels validation reported zero reconciliation failures. All 7 Sigma client/verifier tests passed
+(mocked API). Snowflake-dialect parsing passed for the generated SQL files.
+These are local checks, not a new Snowflake/Sigma execution. See [Snowflake execution and evidence](snowflake/README.md)
+for the distinction, reproduction steps, and evidence to retain from an authorized live run.
