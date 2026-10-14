@@ -39,5 +39,7 @@ for f in sorted(root.rglob("*.sql")):
         n += 1
     except Exception as e:
         bad.append(f"{f.name}: {e}")
+if n == 0:
+    bad.append("No compiled SQL found; run dbt build or dbt compile first")
 print(f"{n} compiled models parsed under Snowflake dialect; problems: {bad or 'none'}")
 sys.exit(1 if bad else 0)
