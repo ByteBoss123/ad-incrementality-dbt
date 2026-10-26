@@ -11,7 +11,7 @@ only trustworthy if the data, the statistics and the reporting layer are all tes
 ## Steps Taken to Resolve
 1. **Sourced real experiment data:** 821,737 users from Criteo's randomized ad-targeting tests (~85% could see ads, ~15% held out) and 1,143 Facebook ads across 3 campaigns ($58.7K spend).
 2. **Modeled a tested dbt layer:** 17 models with 57 data tests across staging, intermediate, marts and Sigma-facing views; all lift math lives in one macro so every readout uses identical formulas.
-3. **Built experiment QA into the models:** sample-ratio checks, minimum detectable effect at 80% power, a readability guardrail for small slices, and replication across three independent samples.
+3. **Built experiment QA into the models:** sample-ratio checks, minimum detectable effect at 80% power, a readability guardrail for small slices, and replication across three overlapping seeded samples.
 4. **Decomposed campaign efficiency:** split each campaign's cost-per-conversion gap into click cost (CPC) versus click-to-conversion rate, and profiled spend and conversions by age band.
 5. **Deployed to Snowflake and Sigma:** loaded the data with key-pair auth, ran `dbt build` on Snowflake, and published a Sigma workbook for self-service reporting.
 6. **Verified every number independently:** recomputed all results in pandas/statsmodels with no shared code, and ran mutation tests that inject bad data to prove the tests catch it.
@@ -78,10 +78,11 @@ There is no sample-ratio mismatch (chi-square p = 0.31 to 0.64).
 visits (4.3% relative) and 0.038 pp for conversions (19.9% relative). Both observed
 lifts clear it.
 
-**Replication.** Visit lift is stable across the three samples (+23.7% to +30.6%,
+**Cross-sample sensitivity (not independent replication).** Visit lift is stable across the three samples (+23.7% to +30.6%,
 Cochran's Q p = 0.33). Conversion lift is not: it ranges from +25.6% to +97.1%
-(Q p = 0.043) because each sample has only 64 to 103 control conversions. The pooled
-estimate and its CI are the number to report, not any single sample.
+(Q p = 0.043) because each sample has only 64 to 103 control conversions. The samples overlap (16,701 users occur in multiple samples), so the reported
+Cochran Q p-values are exploratory and do not establish independent replication.
+Use the pooled, deduplicated estimate and its CI rather than a single sample.
 
 **Funnel (descriptive only).** Conversion per visitor is 6.25% targeted vs 4.92% control.
 Visiting happens after assignment, so this comparison is not causal.
@@ -140,11 +141,19 @@ recomputed independently in `validate.py`.
 ## Run
 
 ```bash
-pip install dbt-duckdb statsmodels sqlglot pyarrow
-./fetch_data.sh          # Criteo sample files (~57 MB) from the pinned UpliftBench commit
+python -m pip install dbt-duckdb statsmodels sqlglot pyarrow pandas pytest requests
+bash fetch_data.sh          # Criteo sample files (~57 MB) from the pinned UpliftBench commit
 dbt build --profiles-dir .
 python validation/validate.py
-./validation/mutation_test.sh
+bash validation/mutation_test.sh
 dbt compile --profiles-dir . && python validation/snowflake_dialect_check.py
 dbt docs generate --profiles-dir . && dbt docs serve --profiles-dir .
 ```
+
+
+## Reproducing optional integrations
+
+See [Snowflake setup](snowflake/README.md) for the cloud loader and dbt target.
+The local DuckDB workflow needs no Snowflake credentials. To test the mocked
+Sigma integration without contacting Sigma, run `python -m pytest sigma/tests -q`.
+The verification table records prior executions, not continuous service health.
