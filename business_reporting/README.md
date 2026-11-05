@@ -32,9 +32,11 @@ The `.pq` and `.dax` files are implementation drafts, not a PBIX/PBIP or proof o
 
 For multiple-source practice, connect to the existing Snowflake campaign and lift views in this repository once authorized and credentials are available. Keep the unrelated Criteo experiment population separate from the Facebook ad population. Do not join them as if they describe the same campaign.
 
-## Tableau Desktop draft
+## Tableau Desktop dashboard
 
-Follow [tableau/build_guide.md](tableau/build_guide.md) to connect `raw/KAG_conversion_data.csv`, create CPA, CTR, CPC and spend-share calculated fields, and build a campaign dashboard. The guide has not been run in Tableau. No `.twb`/`.twbx` is included, and no Tableau proficiency is inferred until a native build is reconciled to `validation.json` with a screenshot.
+Follow [tableau/build_guide.md](tableau/build_guide.md), or open [tableau/campaign_dashboard.twb](tableau/campaign_dashboard.twb) in Tableau Desktop. The workbook has a campaign table, spend and CPA bar charts, and CPA, CTR, CPC and spend-share calculated fields. It reads a local copy of `raw/KAG_conversion_data.csv` with `Campaign` and `Spend` columns, so relink the data file when Tableau asks. It was written by hand as TWB XML, not exported from Tableau.
+
+Checked on 2026-11-05 in Tableau Desktop 2026.2 (Free Edition): the workbook opened, and approved conversions, CPA, CPC and CTR for campaigns 916, 936 and 1178 matched `validation.json`. Not checked on screen: spend share, impressions, clicks and total rows. Age and gender filters are not added. No screenshot is saved, and no Tableau proficiency is inferred from generated XML.
 
 ## Microsoft Access draft
 
