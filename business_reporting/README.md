@@ -32,6 +32,10 @@ The `.pq` and `.dax` files are implementation drafts, not a PBIX/PBIP or proof o
 
 For multiple-source practice, connect to the existing Snowflake campaign and lift views in this repository once authorized and credentials are available. Keep the unrelated Criteo experiment population separate from the Facebook ad population. Do not join them as if they describe the same campaign.
 
+## Tableau Desktop draft
+
+Follow [tableau/build_guide.md](tableau/build_guide.md) to connect `raw/KAG_conversion_data.csv`, create CPA, CTR, CPC and spend-share calculated fields, and build a campaign dashboard. The guide has not been run in Tableau. No `.twb`/`.twbx` is included, and no Tableau proficiency is inferred until a native build is reconciled to `validation.json` with a screenshot.
+
 ## Microsoft Access draft
 
 From Windows PowerShell with Microsoft Access installed:
