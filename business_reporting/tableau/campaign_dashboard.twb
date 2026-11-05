@@ -1,12 +1,27 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!-- build 20262.26.0528.2205 -->
-<workbook original-version='18.1' source-build='2026.2.0 (20262.26.0528.2205)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+
+<!-- build 20262.26.0912.1023                               -->
+<workbook _.fcp.WorkbookFingerprinting.true...author-id='6962d4779ec7d35cbda5b321d941dd91d9587fb0ddfa67704c4edf72afafc9b5' _.fcp.WorkbookFingerprinting.true...creator-author-id='6962d4779ec7d35cbda5b321d941dd91d9587fb0ddfa67704c4edf72afafc9b5' _.fcp.WorkbookFingerprinting.true...creator-license-type='free' _.fcp.WorkbookFingerprinting.true...creator-machine-id='e9a94aa27fffb6689dcd5c48b52723ac0d9492e7ea20e9b3a4e8b7899f96eb26' _.fcp.WorkbookFingerprinting.true...license-type='free' _.fcp.WorkbookFingerprinting.true...machine-id='e9a94aa27fffb6689dcd5c48b52723ac0d9492e7ea20e9b3a4e8b7899f96eb26' original-version='18.1' source-build='2026.2.3 (20262.26.0912.1023)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
   <document-format-change-manifest>
+    <AnimationOnByDefault />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
     <SheetIdentifierTracking />
-    <SortTagCleanup />
     <WindowsPersistSimpleIdentifiers />
+    <_.fcp.WorkbookFingerprinting.true...WorkbookFingerprinting />
   </document-format-change-manifest>
-  <preferences />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <style>
+    <style-rule element='animation'>
+      <format attr='animation-on' value='ao-off' />
+    </style-rule>
+  </style>
   <datasources>
     <datasource caption='KAG_conversion_data' inline='true' name='federated.kagads01' version='18.1'>
       <connection class='federated'>
@@ -30,22 +45,735 @@
             <column datatype='integer' name='Approved_Conversion' ordinal='10' />
           </columns>
         </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ad_id</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ad_id]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>ad_id</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Campaign</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Campaign]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>Campaign</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>fb_campaign_id</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[fb_campaign_id]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>fb_campaign_id</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>age</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[age]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>age</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>gender</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[gender]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>gender</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>interest</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[interest]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>interest</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Impressions</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Impressions]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>Impressions</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Clicks</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Clicks]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>Clicks</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Spend</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Spend]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>Spend</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Total_Conversion</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Total_Conversion]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>Total_Conversion</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Approved_Conversion</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Approved_Conversion]</local-name>
+            <parent-name>[KAG_conversion_data.csv]</parent-name>
+            <remote-alias>Approved_Conversion</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[Migrated Data]</object-id>
+          </metadata-record>
+        </metadata-records>
       </connection>
-      <column datatype='string' name='[Campaign]' role='dimension' type='nominal' />
-      <column datatype='string' name='[ad_id]' role='dimension' type='nominal' />
-      <column datatype='string' name='[fb_campaign_id]' role='dimension' type='nominal' />
-      <column datatype='integer' name='[interest]' role='dimension' type='ordinal' />
-      <column caption='CPA' datatype='real' name='[Calculation_20261105150000_001]' role='measure' type='quantitative'>
+      <aliases enabled='yes' />
+      <column caption='CPA' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_001]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='IF SUM([Approved_Conversion]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Approved_Conversion]) END' />
       </column>
       <column caption='CTR' datatype='real' default-format='p0.000%' name='[Calculation_20261105150000_002]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='IF SUM([Impressions]) = 0 THEN NULL ELSE SUM([Clicks]) / SUM([Impressions]) END' />
       </column>
-      <column caption='CPC' datatype='real' name='[Calculation_20261105150000_003]' role='measure' type='quantitative'>
+      <column caption='CPC' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_003]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='IF SUM([Clicks]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Clicks]) END' />
       </column>
       <column caption='Spend Share' datatype='real' default-format='p0.00%' name='[Calculation_20261105150000_004]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='SUM([Spend]) / MIN([Calculation_20261105150000_005])' />
       </column>
-    <column caption='Total Spend' datatype='real' name='[Calculation_20261105150000_005]' role='measure' type='quantitative'><calculation class='tableau' formula='{FIXED : SUM([Spend])}' /></column></datasource>
-  </datasources><worksheets><worksheet name='Campaign table'><table><view><datasources><datasource caption='KAG_conversion_data' name='federated.kagads01' /></datasources><datasource-dependencies datasource='federated.kagads01'><column datatype='string' name='[Campaign]' role='dimension' type='nominal' /><column datatype='string' name='[age]' role='dimension' type='nominal' /><column datatype='string' name='[gender]' role='dimension' type='nominal' /><column datatype='real' name='[Spend]' role='measure' type='quantitative' /><column datatype='integer' name='[Impressions]' role='measure' type='quantitative' /><column datatype='integer' name='[Clicks]' role='measure' type='quantitative' /><column datatype='integer' name='[Approved_Conversion]' role='measure' type='quantitative' /><column caption='CPA' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_001]' role='measure' type='quantitative'><calculation class='tableau' formula='IF SUM([Approved_Conversion]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Approved_Conversion]) END' /></column><column caption='CTR' datatype='real' default-format='p0.000%' name='[Calculation_20261105150000_002]' role='measure' type='quantitative'><calculation class='tableau' formula='IF SUM([Impressions]) = 0 THEN NULL ELSE SUM([Clicks]) / SUM([Impressions]) END' /></column><column caption='CPC' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_003]' role='measure' type='quantitative'><calculation class='tableau' formula='IF SUM([Clicks]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Clicks]) END' /></column><column caption='Spend Share' datatype='real' default-format='p0.00%' name='[Calculation_20261105150000_004]' role='measure' type='quantitative'><calculation class='tableau' formula='SUM([Spend]) / MIN([Calculation_20261105150000_005])' /></column><column caption='Total Spend' datatype='real' name='[Calculation_20261105150000_005]' role='measure' type='quantitative'><calculation class='tableau' formula='{FIXED : SUM([Spend])}' /></column><column-instance column='[Campaign]' derivation='None' name='[none:Campaign:nk]' pivot='key' type='nominal' /><column-instance column='[age]' derivation='None' name='[none:age:nk]' pivot='key' type='nominal' /><column-instance column='[gender]' derivation='None' name='[none:gender:nk]' pivot='key' type='nominal' /><column-instance column='[Spend]' derivation='Sum' name='[sum:Spend:qk]' pivot='key' type='quantitative' /><column-instance column='[Impressions]' derivation='Sum' name='[sum:Impressions:qk]' pivot='key' type='quantitative' /><column-instance column='[Clicks]' derivation='Sum' name='[sum:Clicks:qk]' pivot='key' type='quantitative' /><column-instance column='[Approved_Conversion]' derivation='Sum' name='[sum:Approved_Conversion:qk]' pivot='key' type='quantitative' /><column-instance column='[Calculation_20261105150000_001]' derivation='User' name='[usr:Calculation_20261105150000_001:qk]' pivot='key' type='quantitative' /><column-instance column='[Calculation_20261105150000_002]' derivation='User' name='[usr:Calculation_20261105150000_002:qk]' pivot='key' type='quantitative' /><column-instance column='[Calculation_20261105150000_003]' derivation='User' name='[usr:Calculation_20261105150000_003:qk]' pivot='key' type='quantitative' /><column-instance column='[Calculation_20261105150000_004]' derivation='User' name='[usr:Calculation_20261105150000_004:qk]' pivot='key' type='quantitative' /><column-instance column='[Calculation_20261105150000_005]' derivation='User' name='[usr:Calculation_20261105150000_005:qk]' pivot='key' type='quantitative' /></datasource-dependencies><filter class='categorical' column='[federated.kagads01].[:Measure Names]'><groupfilter function='union' user:op='manual'><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Spend:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Impressions:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Clicks:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Approved_Conversion:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_001:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_002:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_003:qk]&quot;' /><groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_004:qk]&quot;' /></groupfilter></filter><filter class='categorical' column='[federated.kagads01].[age]'><groupfilter function='level-members' level='[age]' /></filter><filter class='categorical' column='[federated.kagads01].[gender]'><groupfilter function='level-members' level='[gender]' /></filter><aggregation value='true' /></view><style /><panes><pane selection-relaxation-option='selection-relaxation-allow'><view><breakdown value='auto' /></view><mark class='Automatic' /><encodings><text column='[federated.kagads01].[Multiple Values]' /></encodings></pane></panes><rows>[federated.kagads01].[none:Campaign:nk]</rows><cols>[federated.kagads01].[:Measure Names]</cols></table><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C11}' /></worksheet><worksheet name='Spend by campaign'><table><view><datasources><datasource caption='KAG_conversion_data' name='federated.kagads01' /></datasources><datasource-dependencies datasource='federated.kagads01'><column datatype='string' name='[Campaign]' role='dimension' type='nominal' /><column datatype='string' name='[age]' role='dimension' type='nominal' /><column datatype='string' name='[gender]' role='dimension' type='nominal' /><column datatype='real' name='[Spend]' role='measure' type='quantitative' /><column-instance column='[Campaign]' derivation='None' name='[none:Campaign:nk]' pivot='key' type='nominal' /><column-instance column='[age]' derivation='None' name='[none:age:nk]' pivot='key' type='nominal' /><column-instance column='[gender]' derivation='None' name='[none:gender:nk]' pivot='key' type='nominal' /><column-instance column='[Spend]' derivation='Sum' name='[sum:Spend:qk]' pivot='key' type='quantitative' /></datasource-dependencies><filter class='categorical' column='[federated.kagads01].[age]'><groupfilter function='level-members' level='[age]' /></filter><filter class='categorical' column='[federated.kagads01].[gender]'><groupfilter function='level-members' level='[gender]' /></filter><aggregation value='true' /></view><style /><panes><pane selection-relaxation-option='selection-relaxation-allow'><view><breakdown value='auto' /></view><mark class='Bar' /></pane></panes><rows>[federated.kagads01].[none:Campaign:nk]</rows><cols>[federated.kagads01].[sum:Spend:qk]</cols></table><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C12}' /></worksheet><worksheet name='CPA by campaign'><table><view><datasources><datasource caption='KAG_conversion_data' name='federated.kagads01' /></datasources><datasource-dependencies datasource='federated.kagads01'><column datatype='string' name='[Campaign]' role='dimension' type='nominal' /><column datatype='string' name='[age]' role='dimension' type='nominal' /><column datatype='string' name='[gender]' role='dimension' type='nominal' /><column caption='CPA' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_001]' role='measure' type='quantitative'><calculation class='tableau' formula='IF SUM([Approved_Conversion]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Approved_Conversion]) END' /></column><column-instance column='[Campaign]' derivation='None' name='[none:Campaign:nk]' pivot='key' type='nominal' /><column-instance column='[age]' derivation='None' name='[none:age:nk]' pivot='key' type='nominal' /><column-instance column='[gender]' derivation='None' name='[none:gender:nk]' pivot='key' type='nominal' /><column-instance column='[Calculation_20261105150000_001]' derivation='User' name='[usr:Calculation_20261105150000_001:qk]' pivot='key' type='quantitative' /></datasource-dependencies><filter class='categorical' column='[federated.kagads01].[age]'><groupfilter function='level-members' level='[age]' /></filter><filter class='categorical' column='[federated.kagads01].[gender]'><groupfilter function='level-members' level='[gender]' /></filter><aggregation value='true' /></view><style /><panes><pane selection-relaxation-option='selection-relaxation-allow'><view><breakdown value='auto' /></view><mark class='Bar' /></pane></panes><rows>[federated.kagads01].[none:Campaign:nk]</rows><cols>[federated.kagads01].[usr:Calculation_20261105150000_001:qk]</cols></table><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C13}' /></worksheet></worksheets><dashboards><dashboard name='Campaign performance'><size sizing-mode='fixed' minwidth='1200' maxwidth='1200' minheight='800' maxheight='800' /><datasources /><zones><zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'><zone h='5000' id='3' type-v2='title' w='100000' x='0' y='0' /><zone h='30000' id='4' name='Campaign table' w='100000' x='0' y='5000' /><zone h='55000' id='5' name='Spend by campaign' w='40000' x='0' y='35000' /><zone h='55000' id='6' name='CPA by campaign' w='40000' x='40000' y='35000' /><zone h='27500' id='8' name='Campaign table' param='[federated.kagads01].[none:age:nk]' type-v2='filter' w='20000' x='80000' y='35000' /><zone h='27500' id='9' name='Campaign table' param='[federated.kagads01].[none:gender:nk]' type-v2='filter' w='20000' x='80000' y='62500' /><zone h='5000' id='7' type-v2='text' w='100000' x='0' y='90000'><formatted-text><run>Currency unspecified. No revenue or ROI data. Rates are ratios of totals.</run></formatted-text></zone></zone></zones><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C14}' /></dashboard></dashboards><windows source-height='30'><window class='worksheet' name='Campaign table'><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip></edge></cards><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C11}' /></window><window class='worksheet' name='Spend by campaign'><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip></edge></cards><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C12}' /></window><window class='worksheet' name='CPA by campaign'><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip></edge></cards><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C13}' /></window><window class='dashboard' maximized='true' name='Campaign performance'><viewpoints><viewpoint name='Campaign table' /><viewpoint name='Spend by campaign' /><viewpoint name='CPA by campaign' /></viewpoints><active id='-1' /><simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C15}' /></window></windows></workbook>
+      <column caption='Total Spend' datatype='real' name='[Calculation_20261105150000_005]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='{FIXED : SUM([Spend])}' />
+      </column>
+      <column caption='Migrated Data' datatype='table' name='[__tableau_internal_object_id__].[Migrated Data]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[interest]' role='dimension' type='ordinal' />
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <object-graph>
+        <objects>
+          <object caption='Migrated Data' id='Migrated Data'>
+            <properties context=''>
+              <relation connection='textscan.kagads01' name='KAG_conversion_data.csv' table='[KAG_conversion_data#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+                  <column datatype='string' name='ad_id' ordinal='0' />
+                  <column datatype='string' name='Campaign' ordinal='1' />
+                  <column datatype='string' name='fb_campaign_id' ordinal='2' />
+                  <column datatype='string' name='age' ordinal='3' />
+                  <column datatype='string' name='gender' ordinal='4' />
+                  <column datatype='integer' name='interest' ordinal='5' />
+                  <column datatype='integer' name='Impressions' ordinal='6' />
+                  <column datatype='integer' name='Clicks' ordinal='7' />
+                  <column datatype='real' name='Spend' ordinal='8' />
+                  <column datatype='integer' name='Total_Conversion' ordinal='9' />
+                  <column datatype='integer' name='Approved_Conversion' ordinal='10' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='CPA by campaign'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='KAG_conversion_data' name='federated.kagads01' />
+          </datasources>
+          <datasource-dependencies datasource='federated.kagads01'>
+            <column datatype='integer' name='[Approved_Conversion]' role='measure' type='quantitative' />
+            <column caption='CPA' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_001]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='IF SUM([Approved_Conversion]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Approved_Conversion]) END' />
+            </column>
+            <column datatype='string' name='[Campaign]' role='dimension' type='nominal' />
+            <column datatype='real' name='[Spend]' role='measure' type='quantitative' />
+            <column datatype='string' name='[age]' role='dimension' type='nominal' />
+            <column datatype='string' name='[gender]' role='dimension' type='nominal' />
+            <column-instance column='[Campaign]' derivation='None' name='[none:Campaign:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Calculation_20261105150000_001]' derivation='User' name='[usr:Calculation_20261105150000_001:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.kagads01].[age]'>
+            <groupfilter function='level-members' level='[age]' />
+          </filter>
+          <filter class='categorical' column='[federated.kagads01].[gender]'>
+            <groupfilter function='level-members' level='[gender]' />
+          </filter>
+          <slices>
+            <column>[federated.kagads01].[age]</column>
+            <column>[federated.kagads01].[gender]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+          </pane>
+        </panes>
+        <rows>[federated.kagads01].[none:Campaign:nk]</rows>
+        <cols>[federated.kagads01].[usr:Calculation_20261105150000_001:qk]</cols>
+      </table>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C13}' />
+    </worksheet>
+    <worksheet name='Campaign table'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='KAG_conversion_data' name='federated.kagads01' />
+          </datasources>
+          <datasource-dependencies datasource='federated.kagads01'>
+            <column datatype='integer' name='[Approved_Conversion]' role='measure' type='quantitative' />
+            <column caption='CPA' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_001]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='IF SUM([Approved_Conversion]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Approved_Conversion]) END' />
+            </column>
+            <column caption='CTR' datatype='real' default-format='p0.000%' name='[Calculation_20261105150000_002]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='IF SUM([Impressions]) = 0 THEN NULL ELSE SUM([Clicks]) / SUM([Impressions]) END' />
+            </column>
+            <column caption='CPC' datatype='real' default-format='n#,##0.00' name='[Calculation_20261105150000_003]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='IF SUM([Clicks]) = 0 THEN NULL ELSE SUM([Spend]) / SUM([Clicks]) END' />
+            </column>
+            <column caption='Spend Share' datatype='real' default-format='p0.00%' name='[Calculation_20261105150000_004]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='SUM([Spend]) / MIN([Calculation_20261105150000_005])' />
+            </column>
+            <column caption='Total Spend' datatype='real' name='[Calculation_20261105150000_005]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='{FIXED : SUM([Spend])}' />
+            </column>
+            <column datatype='string' name='[Campaign]' role='dimension' type='nominal' />
+            <column datatype='integer' name='[Clicks]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[Impressions]' role='measure' type='quantitative' />
+            <column datatype='real' name='[Spend]' role='measure' type='quantitative' />
+            <column datatype='string' name='[age]' role='dimension' type='nominal' />
+            <column datatype='string' name='[gender]' role='dimension' type='nominal' />
+            <column-instance column='[Campaign]' derivation='None' name='[none:Campaign:nk]' pivot='key' type='nominal' />
+            <column-instance column='[age]' derivation='None' name='[none:age:nk]' pivot='key' type='nominal' />
+            <column-instance column='[gender]' derivation='None' name='[none:gender:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Approved_Conversion]' derivation='Sum' name='[sum:Approved_Conversion:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Clicks]' derivation='Sum' name='[sum:Clicks:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Impressions]' derivation='Sum' name='[sum:Impressions:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Spend]' derivation='Sum' name='[sum:Spend:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_20261105150000_001]' derivation='User' name='[usr:Calculation_20261105150000_001:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_20261105150000_002]' derivation='User' name='[usr:Calculation_20261105150000_002:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_20261105150000_003]' derivation='User' name='[usr:Calculation_20261105150000_003:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_20261105150000_004]' derivation='User' name='[usr:Calculation_20261105150000_004:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.kagads01].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Spend:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Impressions:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Clicks:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[sum:Approved_Conversion:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_001:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_002:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_003:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.kagads01].[usr:Calculation_20261105150000_004:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.kagads01].[age]'>
+            <groupfilter function='level-members' level='[age]' />
+          </filter>
+          <filter class='categorical' column='[federated.kagads01].[gender]'>
+            <groupfilter function='level-members' level='[gender]' />
+          </filter>
+          <slices>
+            <column>[federated.kagads01].[:Measure Names]</column>
+            <column>[federated.kagads01].[age]</column>
+            <column>[federated.kagads01].[gender]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.kagads01].[Multiple Values]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows total='true'>[federated.kagads01].[none:Campaign:nk]</rows>
+        <cols>[federated.kagads01].[:Measure Names]</cols>
+      </table>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C11}' />
+    </worksheet>
+    <worksheet name='Spend by campaign'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='KAG_conversion_data' name='federated.kagads01' />
+          </datasources>
+          <datasource-dependencies datasource='federated.kagads01'>
+            <column datatype='string' name='[Campaign]' role='dimension' type='nominal' />
+            <column datatype='real' name='[Spend]' role='measure' type='quantitative' />
+            <column datatype='string' name='[age]' role='dimension' type='nominal' />
+            <column datatype='string' name='[gender]' role='dimension' type='nominal' />
+            <column-instance column='[Campaign]' derivation='None' name='[none:Campaign:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Spend]' derivation='Sum' name='[sum:Spend:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.kagads01].[age]'>
+            <groupfilter function='level-members' level='[age]' />
+          </filter>
+          <filter class='categorical' column='[federated.kagads01].[gender]'>
+            <groupfilter function='level-members' level='[gender]' />
+          </filter>
+          <slices>
+            <column>[federated.kagads01].[age]</column>
+            <column>[federated.kagads01].[gender]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+          </pane>
+        </panes>
+        <rows>[federated.kagads01].[none:Campaign:nk]</rows>
+        <cols>[federated.kagads01].[sum:Spend:qk]</cols>
+      </table>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C12}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Campaign performance'>
+      <style />
+      <size maxheight='800' maxwidth='1200' minheight='800' minwidth='1200' sizing-mode='fixed' />
+      <datasources>
+        <datasource caption='KAG_conversion_data' name='federated.kagads01' />
+      </datasources>
+      <datasource-dependencies datasource='federated.kagads01'>
+        <column datatype='string' name='[age]' role='dimension' type='nominal' />
+        <column datatype='string' name='[gender]' role='dimension' type='nominal' />
+        <column-instance column='[age]' derivation='None' name='[none:age:nk]' pivot='key' type='nominal' />
+        <column-instance column='[gender]' derivation='None' name='[none:gender:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <zones>
+        <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='5263' id='3' type-v2='title' w='100000' x='0' y='0' />
+          <zone h='31579' id='4' name='Campaign table' w='100000' x='0' y='5263' />
+          <zone h='57894' id='5' name='Spend by campaign' w='40000' x='0' y='36842' />
+          <zone h='57894' id='6' name='CPA by campaign' w='40000' x='40000' y='36842' />
+          <zone h='28947' id='8' name='Campaign table' param='[federated.kagads01].[none:age:nk]' type-v2='filter' w='20000' x='80000' y='36842'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='background-color' value='#ffffff' />
+            </zone-style>
+          </zone>
+          <zone h='28947' id='9' name='Campaign table' param='[federated.kagads01].[none:gender:nk]' type-v2='filter' w='20000' x='80000' y='65789'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='background-color' value='#ffffff' />
+            </zone-style>
+          </zone>
+          <zone h='5264' id='7' type-v2='text' w='100000' x='0' y='94736'>
+            <formatted-text>
+              <run>Currency unspecified. No revenue or ROI data. Rates are ratios of totals.</run>
+            </formatted-text>
+          </zone>
+        </zone>
+      </zones>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C14}' />
+    </dashboard>
+  </dashboards>
+  <windows saved-dpi-scale-factor='1.5' source-height='44'>
+    <window class='worksheet' name='Campaign table'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C11}' />
+    </window>
+    <window class='worksheet' name='Spend by campaign'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C12}' />
+    </window>
+    <window class='worksheet' name='CPA by campaign'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C13}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Campaign performance'>
+      <viewpoints>
+        <viewpoint name='CPA by campaign' />
+        <viewpoint name='Campaign table' />
+        <viewpoint name='Spend by campaign' />
+      </viewpoints>
+      <active id='4' />
+      <simple-id uuid='{3F2A9C10-5B1E-4D7A-9C21-7A6E0B1D2C15}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Campaign performance' width='192'>
+      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
+      GBoaYt26dYuy/+qrr3LmzBlKS0sxGAzx+1pQUMBbb71FKBTCbrdz/Phx+vr66OjoYHx8PP4Y
+      4VK6QEeOHOHIkSMkJyfz9ttv09jYyM0334wkSbz22mu43W70ej1vvfUWsViMs2fPcu7cOYxG
+      I5mZmXE7e/fu5ciRIxQVFfH73/+egoICLBYLtbW12O32+CTYq6++Gk/+O3LkCCaTieHhYXbt
+      2sWOHTsIBoM899xz81GgqeFOijbfS35mEoHgNP/8f/8LFqeT5voz/P75V9m/dzf9A53sO1DH
+      H//wOq4p96JvxLVw9913X9J/02g0PPbYY9hsNr7+9a+zY8cOwuEw2dnZl2Q3LpWF/n0kEok/
+      oAHzg1OLxUJRURG5ubls3Lhx2XxejFqt5p577om/XuifL/RtCwoWv+mHEILk5GQeeuih+Mp2
+      C/e1v7+fe++9F5h/KmthoKpWq5mbm8PpdC45ClRRUcHs7Cx5eXnxMOTCt/z9998fT5JLSUnB
+      6XTGZ4U//ktw5513otfrycrK4o475tdlKi0txePxkJOTA8w/z11VVYUsy3G/KSkp8TYE4v7n
+      k+HyVjPY3kiGQcOY3UP11tsoNoSYDGhITdaCLoVbbt2KOhZFpTWQmT7/2FokMIvVNRPP7Fsu
+      JicnmZmZwev1MjExgc/no6enB5PJxOHDh7n//vvZvn07JSUlnwiTLYUdO3aQm5tLc3MzwWCQ
+      trY2xsfHGRkZiafcWq1Wpqenl5SWfCUWMjXtdjsulwuPx8MjjzyC0+nEarXGszMXgyRJzM3N
+      0dfXR1ZW1iX3NSsri8nJSRwOBz09Pdx333243W6++c1vkpeXR1JSUjxNfCl1u/3226mtrWXN
+      mjXo9XqmpqaYnp5mcnLy/H4TJkpKSnC5XKxfv54dO3bEJyZhXsQvv/wy99xzD9FoFIfDgc1m
+      Y3p6mocffpjOzk7Gx8fxeDwMDg4yMDAQ91tXVxdvw8nJSUZGRsjNzb2QC+SyWRiZcFGzsRrf
+      bICc7BTaW9vJyC3EoFOTk5OBy+Ul5JvC4w9TtnY9mugc035BNOCloHD5tiTq6ekhGAwihCAt
+      LY2MjAwmJibYtGkTdrudvLw8PB4PPT09bNmy5RNRjMUyPDyM3++nuroaSZJwOp1oNJr4JI7T
+      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
+    </thumbnail>
+  </thumbnails>
+</workbook>
