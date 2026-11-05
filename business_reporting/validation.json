@@ -1,0 +1,41 @@
+{
+  "source_sha256": "34acf526e4ea34d96b5acb5b49ef75fb8ec32abaaf8c087d4960c8438dc03924",
+  "row_count": 1143,
+  "campaigns": [
+    {
+      "campaign": "1178",
+      "ads": 625,
+      "impressions": 204823716,
+      "clicks": 36068,
+      "spend": 55662.149958614,
+      "approved": 872,
+      "cpa": 63.83274077822706,
+      "ctr": 0.00017609288955581687
+    },
+    {
+      "campaign": "916",
+      "ads": 54,
+      "impressions": 482925,
+      "clicks": 113,
+      "spend": 149.710000657,
+      "approved": 24,
+      "cpa": 6.237916694041666,
+      "ctr": 0.00023399078531863125
+    },
+    {
+      "campaign": "936",
+      "ads": 464,
+      "impressions": 8128187,
+      "clicks": 1984,
+      "spend": 2893.369998934,
+      "approved": 183,
+      "cpa": 15.810765021497266,
+      "ctr": 0.00024408887246319506
+    }
+  ],
+  "limitations": [
+    "No dates, revenue, budget, or customer identifiers in the ad export.",
+    "CPA means cost per approved conversion, not customer acquisition cost.",
+    "Descriptive campaign comparisons do not establish causal lift."
+  ]
+}

@@ -2,6 +2,8 @@
 
 **Stack:** dbt, Snowflake, Sigma, SQL, Python (DuckDB for local runs)
 
+**Business reporting extension:** [Excel workbook, VBA PivotTable module, Power BI/Access drafts and verification status](business_reporting/README.md). The workbook calculations are checked locally; Microsoft desktop execution and service administration remain pending.
+
 ## Business Problem
 An advertiser spending on paid media needs two answers: **did the ads actually cause extra visits and
 conversions, or would those customers have converted anyway?** And **where is the budget being wasted?**
