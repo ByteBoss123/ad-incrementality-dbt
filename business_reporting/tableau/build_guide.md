@@ -13,7 +13,7 @@ Rates use totals, not averages of ad-level ratios. Zero denominators return null
 CPA          : IF SUM([Approved_Conversion]) = 0 THEN NULL ELSE SUM([Spent]) / SUM([Approved_Conversion]) END
 CTR          : IF SUM([Impressions]) = 0 THEN NULL ELSE SUM([Clicks]) / SUM([Impressions]) END
 CPC          : IF SUM([Clicks]) = 0 THEN NULL ELSE SUM([Spent]) / SUM([Clicks]) END
-Spend Share  : SUM([Spent]) / TOTAL(SUM([Spent]))
+Spend Share  : SUM([Spent]) / MIN({EXCLUDE [xyz_campaign_id] : SUM([Spent])})
 ```
 
 Format spend, CPA and CPC as 2-decimal numbers with no currency symbol (currency is unspecified in the source). CTR and Spend Share as percentages.

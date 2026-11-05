@@ -36,7 +36,7 @@ For multiple-source practice, connect to the existing Snowflake campaign and lif
 
 Follow [tableau/build_guide.md](tableau/build_guide.md), or open [tableau/campaign_dashboard.twb](tableau/campaign_dashboard.twb) in Tableau Desktop. The workbook has a campaign table, spend and CPA bar charts, and CPA, CTR, CPC and spend-share calculated fields. It reads a local copy of `raw/KAG_conversion_data.csv` with `Campaign` and `Spend` columns, so relink the data file when Tableau asks. It was written by hand as TWB XML, not exported from Tableau.
 
-Checked on 2026-11-05 in Tableau Desktop 2026.2 (Free Edition): the workbook opened, and approved conversions, CPA, CPC and CTR for campaigns 916, 936 and 1178 matched `validation.json`. Not checked on screen: spend share, impressions, clicks and total rows. Age and gender filters are not added. No screenshot is saved, and no Tableau proficiency is inferred from generated XML.
+Checked on 2026-11-05 in Tableau Desktop 2026.2 (Free Edition), using the previous revision of the workbook (v4): it opened, and approved conversions, CPA, CPC, CTR, clicks, impressions and spend for campaigns 916, 936 and 1178 matched `validation.json`. Age and gender filters rendered. That revision showed 100% spend share for every campaign, so the spend-share formula was changed to `SUM([Spend]) / MIN({EXCLUDE [Campaign] : SUM([Spend])})`. The corrected workbook in this folder has not been opened in Tableau, so spend share is unverified. There is no total row and no saved screenshot, and no Tableau proficiency is inferred from generated XML.
 
 ## Microsoft Access draft
 
