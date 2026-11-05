@@ -16,7 +16,7 @@ The workbook is a static source snapshot with editable data, not a connected liv
 4. Run `RefreshReport` after editing data. Verify the PivotTable grand totals against `validation.json`. Do not average ad-level CPA values.
 5. Save a screenshot showing the PivotTable and filter, and record Excel version and run date.
 
-The delivered `.xlsx` contains no embedded macros or native PivotTable. The VBA source is provided separately and has not been run in Excel. A native-app run is required before claiming that exercise as completed.
+`excel/campaign_reporting.xlsx` contains no embedded macros or native PivotTable. `excel/campaign_reporting_pivot.xlsx` is a copy with a native PivotTable on `Sheet1`, built by hand in desktop Excel on 2026-11-05 through the PivotTable Fields pane (campaign and age in Rows, gender as a filter, summed impressions, clicks, spend and approved conversions), not by the macro. Its grand totals match `validation.json`: spend 58,705.23, approved 1,079, clicks 38,165, impressions 213,434,828, and the per-campaign rows match too. The VBA in `ReportingMacros.bas` has still not been run in Excel, so the macro exercise is not claimed as completed. The Access draft has not been run, because Access is not installed on the test machine. There is no saved screenshot and the Excel version was not recorded.
 
 ## Power BI Desktop draft
 
