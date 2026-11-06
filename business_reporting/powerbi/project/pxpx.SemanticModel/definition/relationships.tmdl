@@ -1,0 +1,4 @@
+relationship d325cce9-3e71-4919-ad83-61a59970e701
+	fromColumn: Ads.Campaign
+	toColumn: Campaigns.Campaign
+	crossFilteringBehavior: oneDirection

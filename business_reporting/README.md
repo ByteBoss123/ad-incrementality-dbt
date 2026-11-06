@@ -1,6 +1,6 @@
 # Campaign business reporting
 
-This extension brings the existing 1,143-ad campaign dataset into an Excel reporting workbook and provides Microsoft Power BI and Access implementation drafts. It does not change the original dbt models or claim a live Microsoft deployment.
+This extension provides Tableau, Power BI and Excel reporting for the existing 1,143-ad campaign dataset. Access and VBA exercises remain separate drafts. Existing dbt models are unchanged; Power BI service deployment is not claimed.
 
 ## Open the completed workbook
 
@@ -18,25 +18,25 @@ The workbook is a static source snapshot with editable data, not a connected liv
 
 `excel/campaign_reporting.xlsx` contains no embedded macros or native PivotTable. `excel/campaign_reporting_pivot.xlsx` is a copy with a native PivotTable on `Sheet1`, built by hand in desktop Excel on 2026-11-05 through the PivotTable Fields pane (campaign and age in Rows, gender as a filter, summed impressions, clicks, spend and approved conversions), not by the macro. Its grand totals match `validation.json`: spend 58,705.23, approved 1,079, clicks 38,165, impressions 213,434,828, and the per-campaign rows match too. The VBA in `ReportingMacros.bas` has still not been run in Excel, so the macro exercise is not claimed as completed. The Access draft has not been run, because Access is not installed on the test machine. There is no saved screenshot and the Excel version was not recorded.
 
-## Power BI Desktop draft
+## Power BI project
 
-1. Create a text parameter `SourcePath` pointing at `raw/KAG_conversion_data.csv`.
-2. Create blank queries `Ads` and `Campaigns`, paste their `.pq` files into Advanced Editor, and enable load.
-3. Add a one-to-many relationship `Campaigns[xyz_campaign_id]` -> `Ads[xyz_campaign_id]`, single-direction filtering from Campaigns to Ads. Confirm Campaigns keys are unique.
-4. Create the measures from `powerbi/measures.dax` individually. Format CTR and approval/spend shares as percentages. Format spend, CPC and CPA as decimals, without assuming a currency.
-5. Build page **Campaign overview**: spend and approved-conversion cards, campaign CPA bar chart, campaign table, and campaign/age/gender slicers.
-6. Build page **Ad detail**: ad ID, campaign, age, impressions, clicks, spend, total and approved conversions. Enable campaign drill-through and add a back button. Verify that totals reconcile under filters.
-7. Save the project as PBIP. Compare all 3 campaigns with `validation.json`, test slicers and drill-through, and capture screenshots.
+Open [powerbi/project/pxpx.pbip](powerbi/project/pxpx.pbip) after downloading the complete repository, then select **Refresh** in Power BI Desktop. The dataset is embedded; no local source path or sign-in is required. Keep the `.Report` and `.SemanticModel` folders beside the PBIP.
 
-The `.pq` and `.dax` files are implementation drafts, not a PBIX/PBIP or proof of dashboard execution. Power BI Desktop is unavailable in the build environment. A Windows PowerShell model-wizard runtime is also unavailable, so the model design and source drafts are supplied explicitly.
+- **Campaign overview:** spend, approved-conversion, CPA and CTR cards; campaign spend and CPA charts; campaign metrics table.
+- **Audience and ad detail:** age-band charts and ad-level detail.
+- Both pages have campaign, age and gender slicers. The model has Ads and Campaigns, a one-to-many relationship and ten explicit measures.
 
-For multiple-source practice, connect to the existing Snowflake campaign and lift views in this repository once authorized and credentials are available. Keep the unrelated Criteo experiment population separate from the Facebook ad population. Do not join them as if they describe the same campaign.
+Local validation covered 21 report JSON files against Microsoft schemas, 16 visual definitions, field references, layout bounds and embedded source reconciliation. This is not Desktop execution: TMDL parsing, Power Query refresh, DAX evaluation and rendered slicer behavior still require a native-app check. See [project validation](powerbi/project/validation/local_checks.json).
+
+The standalone `.pq`/`.dax` files in `powerbi/` describe the earlier manual-build route and use its original field names. The PBIP contains its own authoritative TMDL queries and measures. Do not paste the older drafts into the new project. No drill-through action or service deployment is claimed.
+
+For multiple-source practice, connect to the existing Snowflake views only when credentials are available. Keep the unrelated Criteo experiment and Facebook ad populations separate.
 
 ## Tableau Desktop dashboard
 
-Follow [tableau/build_guide.md](tableau/build_guide.md), or open [tableau/campaign_dashboard.twb](tableau/campaign_dashboard.twb) in Tableau Desktop. The workbook has a campaign table, spend and CPA bar charts, and CPA, CTR, CPC and spend-share calculated fields. It reads a local copy of `raw/KAG_conversion_data.csv` with `Campaign` and `Spend` columns, so relink the data file when Tableau asks. It was first written by hand as TWB XML, then opened and re-saved in Tableau.
+Follow [tableau/build_guide.md](tableau/build_guide.md), or open [tableau/campaign_dashboard.twb](tableau/campaign_dashboard.twb) in Tableau Desktop. The workbook has a campaign table, spend and CPA bar charts, and CPA, CTR, CPC and spend-share calculated fields. It reads the included `tableau/data/KAG_conversion_data.csv`: `xyz_campaign_id` is renamed `Campaign` and `Spent` is renamed `Spend`; all 1,143 rows and values are preserved. The connection now uses the relative `data` directory. If Tableau asks to locate the source, select that CSV. It was first written by hand as TWB XML, then opened and re-saved in Tableau.
 
-Checked on 2026-11-05 in Tableau Desktop 2026.2 (Free Edition): the workbook opened, and approved conversions, CPA, CPC, CTR, clicks, impressions, spend and spend share for campaigns 916, 936 and 1178 matched `validation.json` (spend share 0.26%, 4.93%, 94.82%). Age and gender filters rendered. Spend share uses a separate `{FIXED : SUM([Spend])}` total field, so its denominator ignores the age and gender filters. Earlier `TOTAL()` and single-formula `EXCLUDE`/`FIXED` versions showed 100% for every campaign. The Grand Total row was turned on in Tableau and read approved 1,079, CPA 54.41, CPC 1.54, CTR 0.018%, clicks 38,165, impressions 213,434,828, spend 58,705 and spend share 100%, and the workbook in this folder is that Tableau-saved file. There is no saved screenshot. No Tableau proficiency is inferred from generated XML.
+The existing repository notes record the following check on 2026-11-05 in Tableau Desktop 2026.2 (Free Edition): the workbook opened, and approved conversions, CPA, CPC, CTR, clicks, impressions, spend and spend share for campaigns 916, 936 and 1178 matched `validation.json` (spend share 0.26%, 4.93%, 94.82%). Age and gender filters rendered. Spend share uses a separate `{FIXED : SUM([Spend])}` total field, so its denominator ignores the age and gender filters. Earlier `TOTAL()` and single-formula `EXCLUDE`/`FIXED` versions showed 100% for every campaign. The Grand Total row was turned on in Tableau and read approved 1,079, CPA 54.41, CPC 1.54, CTR 0.018%, clicks 38,165, impressions 213,434,828, spend 58,705 and spend share 100%, and the workbook in this folder is that Tableau-saved file. There is no saved screenshot. This update checked the portable connection and data locally; it did not rerun Tableau Desktop.
 
 ## Microsoft Access draft
 
@@ -59,7 +59,7 @@ python business_reporting/validate.py
 python -m unittest discover -s business_reporting -p 'test_*.py'
 ```
 
-Tests cover source totals, duplicate IDs, invalid counts/spend and zero denominators. Python and SQLite independently agree on campaign totals. The Excel authoring run reconciled every campaign's spend, approved conversions and CPA, tested source-edit recalculation, and tested an unknown ad lookup. The workbook was rendered and reviewed. Native Excel, VBA, Power Query, DAX and Access execution remain pending.
+Tests cover source totals, duplicate IDs, invalid counts/spend and zero denominators. Python and SQLite independently agree on campaign totals. The Excel authoring run reconciled every campaign's spend, approved conversions and CPA, tested source-edit recalculation, and tested an unknown ad lookup. The workbook was rendered and reviewed. The repository separately records a native Excel PivotTable check. VBA, Power BI runtime and Access execution remain pending.
 
 `excel/build.mjs` records the workbook builder. It requires the `@oai/artifact-tool` runtime; the prebuilt workbook can be opened without that package. Run `node build.mjs <repository-root> <absolute-output-directory>` from an environment where that package resolves.
 
@@ -69,8 +69,9 @@ Tests cover source totals, duplicate IDs, invalid counts/spend and zero denomina
 |---|---|---|
 | Marketing analytics | Ad incrementality, email campaign lift, GA4 conversion diagnostics | Explain assumptions and findings independently |
 | SQL and source transformation | Existing dbt models and validation; reporting reconciliation | Demonstrate an end-to-end rerun |
-| Advanced Excel | Formula workbook, ad lookup, native chart | Run VBA/PivotTable, test filters and refresh in Excel |
-| Power BI | M queries, model design, DAX measures and page specification | Build/save PBIP and validate in Desktop |
+| Advanced Excel | Formula workbook, ad lookup, chart and recorded native PivotTable check | Execute VBA and record refresh evidence |
+| Power BI | Editable two-page PBIP with model and measures; local checks passed | Open/refresh and verify visuals in Desktop |
+| Tableau | Tableau-saved workbook; prior Desktop check documented | Recheck portable source path and capture screenshots |
 | Power BI administration | Operational exercise in `powerbi/service_exercise.md` | Live workspace/refresh/access evidence |
 | Access | Schema, saved-query SQL, database builder | Run in Access, inspect relationships and query results |
 | SAP/FICO | No evidence found in this review | Optional learning; not claimed |

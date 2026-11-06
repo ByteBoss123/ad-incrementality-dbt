@@ -1,0 +1,24 @@
+{
+  "status": "local checks passed",
+  "json_files_validated": 21,
+  "visuals": 16,
+  "model_tables": 2,
+  "measures": 10,
+  "embedded_rows": 1143,
+  "checks": [
+    "Microsoft JSON schema validation",
+    "Visual field references exist in model",
+    "Visual bounds and overlap",
+    "Embedded source equals audit CSV",
+    "Campaign totals and keys",
+    "Original PBIX unchanged"
+  ],
+  "not_run": [
+    "Power BI Desktop open/render",
+    "TMDL engine parse",
+    "Power Query refresh",
+    "DAX engine evaluation",
+    "Slicer interactions",
+    "Power BI service deployment"
+  ]
+}

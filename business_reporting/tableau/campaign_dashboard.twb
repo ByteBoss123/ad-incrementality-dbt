@@ -27,7 +27,7 @@
       <connection class='federated'>
         <named-connections>
           <named-connection caption='tableau_ads' name='textscan.kagads01'>
-            <connection class='textscan' directory='C:/Users/amarg/Documents/tableau_ads' filename='KAG_conversion_data.csv' password='' server='' />
+            <connection class='textscan' directory='data' filename='KAG_conversion_data.csv' password='' server='' />
           </named-connection>
         </named-connections>
         <relation connection='textscan.kagads01' name='KAG_conversion_data.csv' table='[KAG_conversion_data#csv]' type='table'>

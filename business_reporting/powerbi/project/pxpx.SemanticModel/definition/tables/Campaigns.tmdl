@@ -1,0 +1,67 @@
+table Campaigns
+	lineageTag: 4b4b1d97-9fc9-42af-9edf-db554f760234
+
+	column Campaign
+		dataType: string
+		lineageTag: 31622f29-c78d-41a2-a1d2-587ae6a68bd7
+		summarizeBy: none
+		sourceColumn: Campaign
+
+	measure 'Ad Count' = COUNTROWS(Ads)
+		formatString: #,0
+		lineageTag: 7921324e-0795-4471-864c-dc76230b23a6
+		displayFolder: Campaign metrics
+
+	measure 'Spend' = SUM(Ads[Spend])
+		formatString: #,0.00
+		lineageTag: 67b80875-d99f-4139-82af-18c30ace3ae9
+		displayFolder: Campaign metrics
+
+	measure 'Impressions' = SUM(Ads[Impressions])
+		formatString: #,0
+		lineageTag: ca5edf6d-3707-4030-bbf9-6cd1b54b58d7
+		displayFolder: Campaign metrics
+
+	measure 'Clicks' = SUM(Ads[Clicks])
+		formatString: #,0
+		lineageTag: 3ea9eef7-6114-4883-b7a2-c7623fae2bc7
+		displayFolder: Campaign metrics
+
+	measure 'Total Conversions' = SUM(Ads[Total Conversions])
+		formatString: #,0
+		lineageTag: f0fafbc4-d9bb-4c63-b134-2cb63ca8f49e
+		displayFolder: Campaign metrics
+
+	measure 'Approved Conversions' = SUM(Ads[Approved Conversions])
+		formatString: #,0
+		lineageTag: 2c4b9092-62d2-44cc-9acd-f69572a15f6b
+		displayFolder: Campaign metrics
+
+	measure 'CTR' = DIVIDE([Clicks], [Impressions])
+		formatString: 0.000%
+		lineageTag: f52b01ad-7337-47c5-9d2f-d508325f18c4
+		displayFolder: Campaign metrics
+
+	measure 'CPC' = DIVIDE([Spend], [Clicks])
+		formatString: #,0.00
+		lineageTag: 91a35d5b-9217-4d9b-8271-3811d9d10441
+		displayFolder: Campaign metrics
+
+	measure 'CPA' = DIVIDE([Spend], [Approved Conversions])
+		formatString: #,0.00
+		lineageTag: ab54c831-9f74-4975-815e-556447bbd24c
+		displayFolder: Campaign metrics
+
+	measure 'Approval Share' = DIVIDE([Approved Conversions], [Total Conversions])
+		formatString: 0.0%
+		lineageTag: 5d71602e-fe39-4b65-aa28-53a8c05e6a33
+		displayFolder: Campaign metrics
+
+	partition Campaigns = m
+		mode: import
+		source =
+				let
+				    Source = Table.Distinct(Table.SelectColumns(Ads, {"xyz_campaign_id"})),
+				    Renamed = Table.RenameColumns(Source, {{"xyz_campaign_id", "Campaign"}})
+				in
+				    Renamed
