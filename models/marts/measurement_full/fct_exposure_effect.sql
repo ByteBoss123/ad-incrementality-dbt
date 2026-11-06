@@ -9,12 +9,12 @@ arms as (
         sum(case when is_treatment then 1 else 0 end)                         as t_users,
         sum(case when is_treatment then exposure else 0 end)                  as t_exposed,
         sum(case when not is_treatment then exposure else 0 end)              as c_exposed,
-        avg(case when is_treatment then visit end)                            as t_visit,
-        avg(case when not is_treatment then visit end)                        as c_visit,
-        avg(case when is_treatment then conversion end)                       as t_conv,
-        avg(case when not is_treatment then conversion end)                   as c_conv,
-        avg(case when is_treatment and exposure = 1 then conversion end)      as exposed_conv,
-        avg(case when is_treatment and exposure = 1 then visit end)           as exposed_visit
+        avg(case when is_treatment then cast(visit as double) end)                            as t_visit,
+        avg(case when not is_treatment then cast(visit as double) end)                        as c_visit,
+        avg(case when is_treatment then cast(conversion as double) end)                       as t_conv,
+        avg(case when not is_treatment then cast(conversion as double) end)                   as c_conv,
+        avg(case when is_treatment and exposure = 1 then cast(conversion as double) end)      as exposed_conv,
+        avg(case when is_treatment and exposure = 1 then cast(visit as double) end)           as exposed_visit
     from u
 )
 select

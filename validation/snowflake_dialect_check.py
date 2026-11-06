@@ -37,6 +37,11 @@ for f in sorted(root.rglob("*.sql")):
                 if not (d.this.find(exp.Cast) or isinstance(d.this, exp.Cast)) \
                         and not (d.expression.find(exp.Cast)):
                     bad.append(f"{f.name}: fixed-point division {d.sql()[:60]}")
+            # Same trap for AVG: on an integer column Snowflake returns NUMBER with
+            # 6 decimals, which shifted the full-release Wald estimate by 0.002 pp.
+            for a in tree.find_all(exp.Avg):
+                if not a.this.find(exp.Cast):
+                    bad.append(f"{f.name}: fixed-point avg {a.sql()[:60]}")
         n += 1
     except Exception as e:
         bad.append(f"{f.name}: {e}")
