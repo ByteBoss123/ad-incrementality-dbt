@@ -1,6 +1,7 @@
 """Load the raw files into Snowflake RAW.* so dbt can build on Snowflake.
 
-Criteo files: only row_id, y, w are loaded (the model-score columns are not
+Criteo sample files: only row_id, y, w are loaded. The full release (if present) is
+loaded as row_id, treatment, conversion, visit, exposure into RAW.CRITEO.UPLIFT_FULL (the model-score columns are not
 used by any model). The ads CSV is loaded as-is, all columns as text, with
 upper-cased column names so unquoted Snowflake identifiers resolve.
 
@@ -49,6 +50,13 @@ for outcome in ["visit", "conversion"]:
     for seed in [42, 43, 44]:
         f = ROOT / f"raw/criteo/predictions_{outcome}_frac0.1_seed{seed}.parquet"
         total += load(pd.read_parquet(f, columns=["row_id", "y", "w"]), "CRITEO", f"{outcome.upper()}_SEED{seed}")
+full = ROOT / "raw/criteo_full/criteo_uplift_v2.1.parquet"   # orchestration/compact_criteo.py
+if full.exists():
+    n = load(pd.read_parquet(full), "CRITEO", "UPLIFT_FULL")
+    assert n == 13_979_592, n
+    print(f"Full release rows loaded: {n:,} (expected 13,979,592)")
+else:
+    print("Full release not found; run orchestration/compact_criteo.py first to include it.")
 ads = pd.read_csv(ROOT / "raw/KAG_conversion_data.csv", dtype=str)
 load(ads, "ADS", "KAG_CONVERSION_DATA")
 print(f"Criteo rows loaded: {total:,} (expected 1,677,052)")

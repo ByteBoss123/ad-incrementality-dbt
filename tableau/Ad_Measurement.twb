@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<workbook original-version='18.1' source-build='2026.2.0 (20262.26.0528.2205)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences />
+  <datasources>
+    <datasource caption='lift_rates' inline='true' name='federated.lift_rates' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='lift_rates' name='textscan.lift_rates'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='lift_rates.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.lift_rates' name='lift_rates.csv' table='[lift_rates#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='outcome' ordinal='0' />
+            <column datatype='string' name='arm' ordinal='1' />
+            <column datatype='real' name='rate' ordinal='2' />
+            <column datatype='real' name='users' ordinal='3' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Outcome" datatype='string' name='[outcome]' role='dimension' type='nominal' />
+      <column caption="Arm" datatype='string' name='[arm]' role='dimension' type='nominal' />
+      <column caption="Rate" datatype='real' default-format='p0%' name='[rate]' role='measure' type='quantitative' />
+      <column datatype='real' name='[users]' role='measure' type='quantitative' />
+    </datasource>
+    <datasource caption='lift_readout' inline='true' name='federated.lift_readout' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='lift_readout' name='textscan.lift_readout'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='lift_readout.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.lift_readout' name='lift_readout.csv' table='[lift_readout#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='outcome' ordinal='0' />
+            <column datatype='string' name='stat' ordinal='1' />
+            <column datatype='string' name='value' ordinal='2' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Outcome" datatype='string' name='[outcome]' role='dimension' type='nominal' />
+      <column caption="Statistic" datatype='string' name='[stat]' role='dimension' type='nominal' />
+      <column caption="Value" datatype='string' name='[value]' role='dimension' type='nominal' />
+    </datasource>
+    <datasource caption='replication' inline='true' name='federated.replication' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='replication' name='textscan.replication'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='replication.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.replication' name='replication.csv' table='[replication#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='outcome' ordinal='0' />
+            <column datatype='string' name='sample' ordinal='1' />
+            <column datatype='real' name='rel_lift' ordinal='2' />
+            <column datatype='real' name='abs_lift_ci95_low' ordinal='3' />
+            <column datatype='real' name='abs_lift_ci95_high' ordinal='4' />
+            <column datatype='real' name='control_positives' ordinal='5' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Outcome" datatype='string' name='[outcome]' role='dimension' type='nominal' />
+      <column caption="Sample" datatype='string' name='[sample]' role='dimension' type='nominal' />
+      <column caption="Relative lift" datatype='real' default-format='p0%' name='[rel_lift]' role='measure' type='quantitative' />
+      <column datatype='real' name='[abs_lift_ci95_low]' role='measure' type='quantitative' />
+      <column datatype='real' name='[abs_lift_ci95_high]' role='measure' type='quantitative' />
+      <column datatype='real' name='[control_positives]' role='measure' type='quantitative' />
+    </datasource>
+    <datasource caption='assignment_qa' inline='true' name='federated.assignment_qa' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='assignment_qa' name='textscan.assignment_qa'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='assignment_qa.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.assignment_qa' name='assignment_qa.csv' table='[assignment_qa#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='sample' ordinal='0' />
+            <column datatype='integer' name='users' ordinal='1' />
+            <column datatype='real' name='t_share' ordinal='2' />
+            <column datatype='real' name='design_t_share' ordinal='3' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Sample" datatype='string' name='[sample]' role='dimension' type='nominal' />
+      <column datatype='integer' name='[users]' role='measure' type='quantitative' />
+      <column caption="Treatment share" datatype='real' default-format='p0%' name='[t_share]' role='measure' type='quantitative' />
+      <column datatype='real' default-format='p0%' name='[design_t_share]' role='measure' type='quantitative' />
+    </datasource>
+    <datasource caption='exposure_effect' inline='true' name='federated.exposure_effect' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='exposure_effect' name='textscan.exposure_effect'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='exposure_effect.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.exposure_effect' name='exposure_effect.csv' table='[exposure_effect#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='estimate' ordinal='0' />
+            <column datatype='real' name='conversion_lift_pp' ordinal='1' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Estimate" datatype='string' name='[estimate]' role='dimension' type='nominal' />
+      <column caption="Conversion lift" datatype='real' default-format='p0%' name='[conversion_lift_pp]' role='measure' type='quantitative' />
+    </datasource>
+    <datasource caption='campaign_efficiency' inline='true' name='federated.campaign_efficiency' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='campaign_efficiency' name='textscan.campaign_efficiency'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='campaign_efficiency.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.campaign_efficiency' name='campaign_efficiency.csv' table='[campaign_efficiency#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='campaign' ordinal='0' />
+            <column datatype='integer' name='ads' ordinal='1' />
+            <column datatype='real' name='spend_usd' ordinal='2' />
+            <column datatype='real' name='spend_share' ordinal='3' />
+            <column datatype='real' name='ctr' ordinal='4' />
+            <column datatype='real' name='cpc_usd' ordinal='5' />
+            <column datatype='real' name='approved_conversions' ordinal='6' />
+            <column datatype='real' name='cost_per_approved_conversion_usd' ordinal='7' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Campaign" datatype='string' name='[campaign]' role='dimension' type='nominal' />
+      <column datatype='integer' name='[ads]' role='measure' type='quantitative' />
+      <column caption="Spend ($)" datatype='real' name='[spend_usd]' role='measure' type='quantitative' />
+      <column caption="Share of spend" datatype='real' default-format='p0%' name='[spend_share]' role='measure' type='quantitative' />
+      <column datatype='real' default-format='p0%' name='[ctr]' role='measure' type='quantitative' />
+      <column datatype='real' name='[cpc_usd]' role='measure' type='quantitative' />
+      <column datatype='real' name='[approved_conversions]' role='measure' type='quantitative' />
+      <column caption="Cost per approved conversion ($)" datatype='real' name='[cost_per_approved_conversion_usd]' role='measure' type='quantitative' />
+    </datasource>
+    <datasource caption='segment_cpa' inline='true' name='federated.segment_cpa' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='segment_cpa' name='textscan.segment_cpa'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='segment_cpa.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.segment_cpa' name='segment_cpa.csv' table='[segment_cpa#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='age_band' ordinal='0' />
+            <column datatype='string' name='gender' ordinal='1' />
+            <column datatype='real' name='spend_usd' ordinal='2' />
+            <column datatype='real' name='approved_conversions' ordinal='3' />
+            <column datatype='real' name='cost_per_approved_conversion_usd' ordinal='4' />
+          </columns>
+        </relation>
+      </connection>
+      <column caption="Age" datatype='string' name='[age_band]' role='dimension' type='nominal' />
+      <column caption="Gender" datatype='string' name='[gender]' role='dimension' type='nominal' />
+      <column caption="Spend ($)" datatype='real' name='[spend_usd]' role='measure' type='quantitative' />
+      <column datatype='real' name='[approved_conversions]' role='measure' type='quantitative' />
+      <column caption="Cost per approved conversion ($)" datatype='real' name='[cost_per_approved_conversion_usd]' role='measure' type='quantitative' />
+    </datasource>
+    <datasource caption='kpis' inline='true' name='federated.kpis' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='kpis' name='textscan.kpis'>
+            <connection class='textscan' directory="C:/Users/amarg/adlift-dbt/tableau" filename='kpis.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.kpis' name='kpis.csv' table='[kpis#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='sort_order' ordinal='0' />
+            <column datatype='string' name='metric' ordinal='1' />
+            <column datatype='string' name='value' ordinal='2' />
+          </columns>
+        </relation>
+      </connection>
+      <column datatype='integer' name='[sort_order]' role='measure' type='quantitative' />
+      <column datatype='string' name='[metric]' role='dimension' type='nominal' />
+      <column caption="Value" datatype='string' name='[value]' role='dimension' type='nominal' />
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name="Targeted vs Control">
+      <layout-options><title><formatted-text><run bold='true'>Targeted vs Control</run><run fontsize='9' fontcolor='#6b7280'>&#10;Full Criteo release, 13,979,592 users randomly targeted by ads (85%) or withheld (15%).</run></formatted-text></title></layout-options>
+      <table>
+        <view>
+          <datasources><datasource caption='lift_rates' name='federated.lift_rates' /></datasources>
+          <datasource-dependencies datasource='federated.lift_rates'>
+            <column datatype='string' name='[outcome]' role='dimension' type='nominal' />
+            <column datatype='string' name='[arm]' role='dimension' type='nominal' />
+            <column datatype='real' name='[rate]' role='measure' type='quantitative' />
+            <column-instance column='[outcome]' derivation='None' name='[none:outcome:nk]' pivot='key' type='nominal' />
+            <column-instance column='[arm]' derivation='None' name='[none:arm:nk]' pivot='key' type='nominal' />
+            <column-instance column='[rate]' derivation='Sum' name='[sum:rate:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view><breakdown value='auto' /></view>
+            <mark class='Bar' />
+            <encodings><color column='[federated.lift_rates].[none:arm:nk]' /><text column='[federated.lift_rates].[sum:rate:qk]' /></encodings>
+          </pane>
+        </panes>
+        <rows>[federated.lift_rates].[none:outcome:nk] / [federated.lift_rates].[none:arm:nk]</rows>
+        <cols>[federated.lift_rates].[sum:rate:qk]</cols>
+      </table>
+      <simple-id uuid='{482BFE2A-FAB9-4485-BE3B-E6C297767566}' />
+    </worksheet>
+    <worksheet name="Lift Replication by Sample">
+      <layout-options><title><formatted-text><run bold='true'>Lift Replication by Sample</run><run fontsize='9' fontcolor='#6b7280'>&#10;Three 2% samples. Visit lift is stable; conversion lift swings (64-103 control conversions per sample).</run></formatted-text></title></layout-options>
+      <table>
+        <view>
+          <datasources><datasource caption='replication' name='federated.replication' /></datasources>
+          <datasource-dependencies datasource='federated.replication'>
+            <column datatype='string' name='[outcome]' role='dimension' type='nominal' />
+            <column datatype='string' name='[sample]' role='dimension' type='nominal' />
+            <column datatype='real' name='[rel_lift]' role='measure' type='quantitative' />
+            <column-instance column='[outcome]' derivation='None' name='[none:outcome:nk]' pivot='key' type='nominal' />
+            <column-instance column='[sample]' derivation='None' name='[none:sample:nk]' pivot='key' type='nominal' />
+            <column-instance column='[rel_lift]' derivation='Sum' name='[sum:rel_lift:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view><breakdown value='auto' /></view>
+            <mark class='Bar' />
+            <encodings><text column='[federated.replication].[sum:rel_lift:qk]' /></encodings>
+          </pane>
+        </panes>
+        <rows>[federated.replication].[none:sample:nk]</rows>
+        <cols>[federated.replication].[none:outcome:nk] / [federated.replication].[sum:rel_lift:qk]</cols>
+      </table>
+      <simple-id uuid='{8E91ADED-3A5C-459C-AD30-E0D5C3ACCCDB}' />
+    </worksheet>
+    <worksheet name="Assignment QA">
+      <layout-options><title><formatted-text><run bold='true'>Assignment QA</run><run fontsize='9' fontcolor='#6b7280'>&#10;Treatment share vs the 85% design. No sample-ratio mismatch.</run></formatted-text></title></layout-options>
+      <table>
+        <view>
+          <datasources><datasource caption='assignment_qa' name='federated.assignment_qa' /></datasources>
+          <datasource-dependencies datasource='federated.assignment_qa'>
+            <column datatype='string' name='[sample]' role='dimension' type='nominal' />
+            <column datatype='real' name='[t_share]' role='measure' type='quantitative' />
+            <column-instance column='[sample]' derivation='None' name='[none:sample:nk]' pivot='key' type='nominal' />
+            <column-instance column='[t_share]' derivation='Sum' name='[sum:t_share:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view><breakdown value='auto' /></view>
+            <mark class='Text' />
+            <encodings><text column='[federated.assignment_qa].[sum:t_share:qk]' /></encodings>
+          </pane>
+        </panes>
+        <rows>[federated.assignment_qa].[none:sample:nk]</rows>
+        <cols>[federated.assignment_qa].[sum:t_share:qk]</cols>
+      </table>
+      <simple-id uuid='{67867E4C-60E3-4B75-A2F9-E8DECB1D9E8E}' />
+    </worksheet>
+    <worksheet name="Effect per Exposed User">
+      <layout-options><title><formatted-text><run bold='true'>Effect per Exposed User</run><run fontsize='9' fontcolor='#6b7280'>&#10;Only 3.6% of targeted users saw an ad. The naive comparison overstates the causal effect.</run></formatted-text></title></layout-options>
+      <table>
+        <view>
+          <datasources><datasource caption='exposure_effect' name='federated.exposure_effect' /></datasources>
+          <datasource-dependencies datasource='federated.exposure_effect'>
+            <column datatype='string' name='[estimate]' role='dimension' type='nominal' />
+            <column datatype='real' name='[conversion_lift_pp]' role='measure' type='quantitative' />
+            <column-instance column='[estimate]' derivation='None' name='[none:estimate:nk]' pivot='key' type='nominal' />
+            <column-instance column='[conversion_lift_pp]' derivation='Sum' name='[sum:conversion_lift_pp:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view><breakdown value='auto' /></view>
+            <mark class='Bar' />
+            <encodings><text column='[federated.exposure_effect].[sum:conversion_lift_pp:qk]' /></encodings>
+          </pane>
+        </panes>
+        <rows>[federated.exposure_effect].[none:estimate:nk]</rows>
+        <cols>[federated.exposure_effect].[sum:conversion_lift_pp:qk]</cols>
+      </table>
+      <simple-id uuid='{907BAEF6-DCDD-4637-89C8-FA6502329885}' />
+    </worksheet>
+    <worksheet name="Cost per Approved Conversion">
+      <layout-options><title><formatted-text><run bold='true'>Cost per Approved Conversion</run><run fontsize='9' fontcolor='#6b7280'>&#10;Facebook ad export, 1,143 ads. Ratio of sums, never an average of per-ad ratios.</run></formatted-text></title></layout-options>
+      <table>
+        <view>
+          <datasources><datasource caption='campaign_efficiency' name='federated.campaign_efficiency' /></datasources>
+          <datasource-dependencies datasource='federated.campaign_efficiency'>
+            <column datatype='string' name='[campaign]' role='dimension' type='nominal' />
+            <column datatype='real' name='[cost_per_approved_conversion_usd]' role='measure' type='quantitative' />
+            <column datatype='real' name='[spend_share]' role='measure' type='quantitative' />
+            <column-instance column='[campaign]' derivation='None' name='[none:campaign:nk]' pivot='key' type='nominal' />
+            <column-instance column='[cost_per_approved_conversion_usd]' derivation='Sum' name='[sum:cost_per_approved_conversion_usd:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[spend_share]' derivation='Sum' name='[sum:spend_share:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view><breakdown value='auto' /></view>
+            <mark class='Bar' />
+            <encodings><text column='[federated.campaign_efficiency].[sum:cost_per_approved_conversion_usd:qk]' /><tooltip column='[federated.campaign_efficiency].[sum:spend_share:qk]' /></encodings>
+          </pane>
+        </panes>
+        <rows>[federated.campaign_efficiency].[none:campaign:nk]</rows>
+        <cols>[federated.campaign_efficiency].[sum:cost_per_approved_conversion_usd:qk]</cols>
+      </table>
+      <simple-id uuid='{40D6B2F5-D322-4C41-B7F3-6783204D1C45}' />
+    </worksheet>
+    <worksheet name="Campaign 1178 by Segment">
+      <layout-options><title><formatted-text><run bold='true'>Campaign 1178 by Segment</run><run fontsize='9' fontcolor='#6b7280'>&#10;The campaign with most of the spend, split by age band and gender.</run></formatted-text></title></layout-options>
+      <table>
+        <view>
+          <datasources><datasource caption='segment_cpa' name='federated.segment_cpa' /></datasources>
+          <datasource-dependencies datasource='federated.segment_cpa'>
+            <column datatype='string' name='[age_band]' role='dimension' type='nominal' />
+            <column datatype='string' name='[gender]' role='dimension' type='nominal' />
+            <column datatype='real' name='[cost_per_approved_conversion_usd]' role='measure' type='quantitative' />
+            <column-instance column='[age_band]' derivation='None' name='[none:age_band:nk]' pivot='key' type='nominal' />
+            <column-instance column='[gender]' derivation='None' name='[none:gender:nk]' pivot='key' type='nominal' />
+            <column-instance column='[cost_per_approved_conversion_usd]' derivation='Sum' name='[sum:cost_per_approved_conversion_usd:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view><breakdown value='auto' /></view>
+            <mark class='Bar' />
+            <encodings><text column='[federated.segment_cpa].[sum:cost_per_approved_conversion_usd:qk]' /></encodings>
+          </pane>
+        </panes>
+        <rows>[federated.segment_cpa].[none:age_band:nk]</rows>
+        <cols>[federated.segment_cpa].[none:gender:nk] / [federated.segment_cpa].[sum:cost_per_approved_conversion_usd:qk]</cols>
+      </table>
+      <simple-id uuid='{7066126B-2A22-4AB7-A2B5-AFE0488DDA98}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Ad Incrementality and Campaign Efficiency'>
+      <size maxheight='1100' maxwidth='1400' minheight='1100' minwidth='1400' sizing-mode='fixed' />
+      <datasources />
+      <zones>
+        <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='4545' id='10' type-v2='title' w='100000' x='0' y='0' />
+          <zone h='9091' id='17' type-v2='text' w='100000' x='0' y='4545'><formatted-text><run bold='true' fontcolor='#1c2230' fontsize='18'>13,979,592</run><run fontcolor='#5d6678' fontsize='11'> users in the experiment    |    </run><run bold='true' fontcolor='#1c2230' fontsize='18'>+27.1%</run><run fontcolor='#5d6678' fontsize='11'> visit lift    |    </run><run bold='true' fontcolor='#1c2230' fontsize='18'>+59.4%</run><run fontcolor='#5d6678' fontsize='11'> conversion lift    |    </run><run bold='true' fontcolor='#1c2230' fontsize='18'>13,687</run><run fontcolor='#5d6678' fontsize='11'> incremental conversions    |    </run><run bold='true' fontcolor='#1c2230' fontsize='18'>95%</run><run fontcolor='#5d6678' fontsize='11'> of ad spend in the least efficient campaign</run><run fontcolor='#5d6678' fontsize='10'>&#10;Criteo Uplift v2.1 randomized test, full 13.98M-user release (Diemert et al., AdKDD 2018), and a Facebook ad campaign export. Built with dbt; every figure re-checked by an independent pandas/statsmodels recomputation.</run></formatted-text></zone>
+          <zone h='27273' id='11' name="Targeted vs Control" type-v2='visual' w='50000' x='0' y='13636' />
+          <zone h='25455' id='12' name="Lift Replication by Sample" type-v2='visual' w='37143' x='0' y='40909' />
+          <zone h='25455' id='13' name="Effect per Exposed User" type-v2='visual' w='40000' x='37143' y='40909' />
+          <zone h='25455' id='14' name="Assignment QA" type-v2='visual' w='22857' x='77143' y='40909' />
+          <zone h='33636' id='15' name="Cost per Approved Conversion" type-v2='visual' w='42857' x='0' y='66364' />
+          <zone h='33636' id='16' name="Campaign 1178 by Segment" type-v2='visual' w='57143' x='42857' y='66364' />
+          <zone h='27273' id='18' type-v2='text' w='50000' x='50000' y='13636'><formatted-text><run bold='true' fontcolor='#1c2230' fontsize='15'>Lift readout (full release)</run><run fontcolor='#5d6678' fontsize='10'>&#10;Two-proportion z-test; 95% CI on the absolute difference.&#10;</run><run bold='true' fontcolor='#1c2230' fontsize='12'>&#10;Visit: +27.1%</run><run fontcolor='#1c2230' fontsize='11'>&#10;  absolute +1.034 pp (95% CI 1.006 to 1.063 pp), z = 65.25, ~122,895 incremental</run><run bold='true' fontcolor='#1c2230' fontsize='12'>&#10;Conversion: +59.4%</run><run fontcolor='#1c2230' fontsize='11'>&#10;  absolute +0.115 pp (95% CI 0.108 to 0.122 pp), z = 28.52, ~13,687 incremental</run></formatted-text></zone>
+        </zone>
+      </zones>
+      <simple-id uuid='{2C413ECE-CF7B-43FB-A586-E8652178A767}' />
+    </dashboard>
+  </dashboards>
+  <windows>
+    <window class='worksheet' hidden='true' name="Targeted vs Control"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='31'><card type='columns' /></strip><strip size='31'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge></cards><simple-id uuid='{E1D9959D-7A43-4A27-A3A0-04F4AF40874B}' /></window>
+    <window class='worksheet' hidden='true' name="Lift Replication by Sample"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='31'><card type='columns' /></strip><strip size='31'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge></cards><simple-id uuid='{44F2D5A3-B4EC-4B6E-A4FD-A996B3C08569}' /></window>
+    <window class='worksheet' hidden='true' name="Assignment QA"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='31'><card type='columns' /></strip><strip size='31'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge></cards><simple-id uuid='{07C1A940-1B37-47FB-83E1-9B3A0189DE2E}' /></window>
+    <window class='worksheet' hidden='true' name="Effect per Exposed User"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='31'><card type='columns' /></strip><strip size='31'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge></cards><simple-id uuid='{2D076B20-1F09-4E27-8480-C758513ED455}' /></window>
+    <window class='worksheet' hidden='true' name="Cost per Approved Conversion"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='31'><card type='columns' /></strip><strip size='31'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge></cards><simple-id uuid='{B66E2048-397B-4A63-A108-998838586DE1}' /></window>
+    <window class='worksheet' hidden='true' name="Campaign 1178 by Segment"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge><edge name='top'><strip size='31'><card type='columns' /></strip><strip size='31'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge></cards><simple-id uuid='{99AF582A-2C2D-497A-BFA9-FC5B0F48841B}' /></window>
+    <window class='dashboard' maximized='true' name='Ad Incrementality and Campaign Efficiency'><viewpoints><viewpoint name="Targeted vs Control" /><viewpoint name="Lift Replication by Sample" /><viewpoint name="Assignment QA" /><viewpoint name="Effect per Exposed User" /><viewpoint name="Cost per Approved Conversion" /><viewpoint name="Campaign 1178 by Segment" /></viewpoints><active id='-1' /><simple-id uuid='{6AFBCFCE-7701-42CB-901E-379C9EDA6D7C}' /></window>
+  </windows>
+</workbook>

@@ -17,6 +17,7 @@ for f in sorted(root.rglob("*.sql")):
     sql = re.sub(r"read_csv\('raw/(\w+)\.csv'[^)]*\)", r"RAW.ADS.\1", sql)
     sql = re.sub(r"read_parquet\('raw/criteo/predictions_(\w+)_frac0\.1_seed(\d+)\.parquet'\)",
                  r"RAW.CRITEO.\1_SEED\2", sql)
+    sql = re.sub(r"read_parquet\('raw/criteo_full/criteo_uplift_v2\.1\.parquet'\)", "RAW.CRITEO.UPLIFT_FULL", sql)
     sql = re.sub(r'"ad_measurement"\."main(_\w+)?"\.', "", sql)
     try:
         tree = sqlglot.parse_one(sql, read="snowflake")

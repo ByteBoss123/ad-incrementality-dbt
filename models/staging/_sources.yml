@@ -30,6 +30,21 @@ sources:
       - name: conversion_frac0.1_seed44
         identifier: "{{ 'conversion_frac0.1_seed44' if target.type == 'duckdb' else 'CONVERSION_SEED44' }}"
 
+  - name: criteo_full
+    database: "{{ 'ad_measurement' if target.type == 'duckdb' else 'RAW' }}"
+    schema: "{{ 'main' if target.type == 'duckdb' else 'CRITEO' }}"
+    description: >
+      The full Criteo Uplift v2.1 release (13,979,592 users), from the official
+      criteo-research-uplift-v2.1.csv.gz on Hugging Face (criteo/criteo-uplift,
+      SHA-256 2716e1bf...616dc). Only treatment, conversion, visit and exposure are
+      kept (orchestration/compact_criteo.py); row_id is the 0-based row position,
+      the same convention as the sample files' row_id.
+    meta:
+      external_location: "read_parquet('raw/criteo_full/{name}.parquet')"
+    tables:
+      - name: criteo_uplift_v2.1
+        identifier: "{{ 'criteo_uplift_v2.1' if target.type == 'duckdb' else 'UPLIFT_FULL' }}"
+
   - name: raw_ads
     database: "{{ 'ad_measurement' if target.type == 'duckdb' else 'RAW' }}"
     schema: "{{ 'main' if target.type == 'duckdb' else 'ADS' }}"

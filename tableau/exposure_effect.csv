@@ -1,0 +1,4 @@
+estimate,conversion_lift_pp
+"1. Effect per targeted user (ITT, causal)",0.0011518730521316279
+"2. Effect per exposed user (Wald/CACE, causal)",0.031963863885825596
+"3. Exposed vs control (naive, not causal)",0.05184651892240374

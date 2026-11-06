@@ -1,6 +1,6 @@
 # Ad Incrementality & Campaign Performance Analytics Warehouse
 
-**Stack:** dbt, Snowflake, SQL, Python; reporting in Tableau, Power BI, Excel and Sigma (DuckDB for local runs)
+**Stack:** dbt, Snowflake, SQL, Python, Airflow; reporting in Tableau, Power BI, Excel and Sigma (DuckDB for local runs)
 
 **Campaign reporting:** [Tableau workbook](business_reporting/tableau/campaign_dashboard.twb), [Power BI project](business_reporting/powerbi/project/pxpx.pbip), and [Excel PivotTable workbook](business_reporting/excel/campaign_reporting_pivot.xlsx). Download the repository to keep each project and its data together. [Setup and validation status](business_reporting/README.md).
 
@@ -9,7 +9,8 @@
 | Tableau | Campaign table, spend and CPA charts, age/gender filters | Existing repository notes record a Desktop 2026.2 check; portable source path and CSV checked locally |
 | Power BI | Two pages, 16 visuals including slicers, two-table model, 10 DAX measures | Report JSON/schema and source checks passed; Desktop refresh/render still pending |
 | Excel | Formula report and native PivotTable | Existing repository notes record desktop reconciliation; VBA execution pending |
-| Sigma | Existing Snowflake-connected workbook | Prior publication and verification documented below |
+| Tableau (measurement) | `tableau/Ad_Measurement.twb`: lift, exposure, assignment QA, campaign CPA | Opened and saved in Tableau Desktop 2026.2 |
+| Sigma | Snowflake-connected workbook (retired; account suspended) | Prior publication and verification documented below |
 
 
 ## Business Problem
@@ -19,35 +20,40 @@ Attribution dashboards cannot answer the first question; only a randomized holdo
 only trustworthy if the data, the statistics and the reporting layer are all tested.
 
 ## Steps Taken to Resolve
-1. **Sourced real experiment data:** 821,737 users from Criteo's randomized ad-targeting tests (~85% could see ads, ~15% held out) and 1,143 Facebook ads across 3 campaigns ($58.7K spend).
-2. **Modeled a tested dbt layer:** 17 models with 57 data tests across staging, intermediate, marts and Sigma-facing views; all lift math lives in one macro so every readout uses identical formulas.
-3. **Built experiment QA into the models:** sample-ratio checks, minimum detectable effect at 80% power, a readability guardrail for small slices, and replication across three overlapping seeded samples.
+1. **Sourced real experiment data:** the full Criteo randomized ad-targeting release, 13,979,592 users (~85% could see ads, ~15% held out), plus three 2% samples for sensitivity checks and 1,143 Facebook ads across 3 campaigns ($58.7K spend).
+2. **Modeled a tested dbt layer:** 22 models with 70 data tests across staging, intermediate, marts and Sigma-facing views; all lift math lives in one macro so every readout uses identical formulas.
+3. **Built experiment QA into the models:** sample-ratio checks, minimum detectable effect at 80% power, a readability guardrail for small slices, an exposure (complier) analysis, and a test that every sampled row matches the full release.
 4. **Decomposed campaign efficiency:** split each campaign's cost-per-conversion gap into click cost (CPC) versus click-to-conversion rate, and profiled spend and conversions by age band.
-5. **Deployed to Snowflake and Sigma:** loaded the data with key-pair auth, ran `dbt build` on Snowflake, and published a Sigma workbook for self-service reporting.
+5. **Deployed to Snowflake and Sigma, then Tableau:** loaded the samples with key-pair auth, ran `dbt build` on Snowflake, and published a Sigma workbook (since retired); the full-release Snowflake run is scripted (`snowflake/run_full_release.ps1`); orchestrated in Airflow with a Tableau dashboard.
 6. **Verified every number independently:** recomputed all results in pandas/statsmodels with no shared code, and ran mutation tests that inject bad data to prove the tests catch it.
 
 ## Achievements
-- Measured **+26.6% visits and +60.8% conversions** caused by the ads (p<1e-11), with no sample-ratio mismatch.
+- Measured **+27.1% visits and +59.4% conversions** caused by the ads on the full 13.98M-user release (z = 65.25 / 28.52), with no sample-ratio mismatch (p = 0.999).
+- Only **3.6%** of targeted users were exposed; the effect per exposed user is **+3.20 pp** on conversion, and the naive exposed-vs-control comparison overstates it by about 60%.
 - Found a **10x cost-per-conversion gap**: **93%** of it comes from click-to-conversion rate, not click cost; ages 45-49 take **34%** of the top campaign's spend at **3x** the CPA of ages 30-34.
 - **Caught and fixed a Snowflake precision bug** (fixed-point division) that inflated z-scores by about 3%, and added an automated check that blocks it from coming back.
-- `dbt build` passes on Snowflake (PASS=66 for the 15 core models and 51 tests) and locally with the 2 driver models (PASS=74); the independent Python recompute matches with **0 mismatches**.
+- `dbt build` passes locally (PASS=92) and passed on Snowflake for the sample models (PASS=66, 2026-09-26); the independent Python recompute matches with **0 mismatches**.
 
 ## Data (real-world, public)
 
 | Source | Grain | Rows used | Provenance |
 |---|---|---|---|
-| Criteo Uplift Modeling Dataset v2.1 (Diemert et al., AdKDD 2018) | user | 821,737 unique users | Real Criteo incrementality tests: users randomly targeted by ads (~85%) or withheld (~15%), with site visit and conversion outcomes. Full release is 13,979,592 rows. Used here: three hash-seeded random samples of the official file, exported with original row positions by the public [UpliftBench](https://github.com/Aman12x/UpliftBench) repo (commit `cc85673`). The official file's hosts are not reachable from the build environment. |
+| Criteo Uplift Modeling Dataset v2.1, **full release** (Diemert et al., AdKDD 2018) | user | 13,979,592 users | Real Criteo incrementality tests: users randomly targeted by ads (85%) or withheld (15%), with visit, conversion and exposure flags. Official `criteo-research-uplift-v2.1.csv.gz` from Hugging Face `criteo/criteo-uplift` (SHA-256 `2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc`), column-projected to the four flags (`raw/criteo_full/`). |
+| Criteo v2.1 samples (replication) | user | 821,737 unique users | Three hash-seeded 2% samples of the official file with original row positions, from the public [UpliftBench](https://github.com/Aman12x/UpliftBench) repo (commit `cc85673`). Every sampled row matches the full release at its row position (singular test `assert_samples_match_full_release`). |
 | Facebook ad campaign export (Kaggle "Sales Conversion Optimization") | ad | 1,143 ads | An anonymous organisation's social media ad campaigns, via a [GitHub mirror](https://github.com/mGalarnyk/Python_Tutorials/blob/master/Kaggle/Facebook/KAG_conversion_data.csv). |
 
-Only `row_id`, `y` (outcome) and `w` (treatment) are read from the Criteo files.
-The files also contain model-score columns, and staging ignores them.
+From the full release only `treatment`, `conversion`, `visit` and `exposure` are kept
+(`orchestration/compact_criteo.py`). From the sample files only `row_id`, `y` (outcome) and
+`w` (treatment) are read; their model-score columns are ignored.
 
 ## Layers
 
 ```
-sources  (6 Criteo parquet samples, 1 ads CSV)
-  └─ staging        stg_criteo__visit_outcomes, stg_criteo__conversion_outcomes,
-                    stg_ads__ad_performance                                      (views)
+sources  (Criteo full release, 6 Criteo samples, 1 ads CSV)
+  └─ staging        stg_criteo__full_release, stg_criteo__visit_outcomes,
+                    stg_criteo__conversion_outcomes, stg_ads__ad_performance     (views)
+      └─ marts/measurement_full  fct_campaign_lift_full, fct_experiment_power_full,
+                                 fct_assignment_qa_full, fct_exposure_effect     (tables)
       └─ intermediate   int_criteo__users  (de-duplicated across samples)       (view)
           └─ marts/measurement  fct_campaign_lift, fct_lift_by_sample,
                                 fct_experiment_power, fct_assignment_qa,
@@ -59,11 +65,11 @@ sources  (6 Criteo parquet samples, 1 ads CSV)
                                 sigma_replication  ──> exposure: Sigma workbook  (views)
 ```
 
-The **Sigma layer** (`sigma/`) has a REST API client and `verify_workbook.py`, which exports
+The **Sigma layer** (`sigma/`, retired, see Known limits) has a REST API client and `verify_workbook.py`, which exports
 each workbook element from Sigma and checks 20 values against the independent validation
 results. Build steps are in `sigma/SIGMA_WORKBOOK.md`.
 
-- 17 models (14 core + 3 Sigma-facing views) and 57 data tests. The tests are built-in, custom generic (`accepted_range`,
+- 22 models (19 core + 3 Sigma-facing views) and 70 data tests. The tests are built-in, custom generic (`accepted_range`,
   `expression_is_true`) and 4 singular tests: sample de-duplication agreement,
   staging row preservation, lift reconciliation and rollup reconciliation.
 - Lift math lives in one macro (`lift_from_counts`), so every readout uses identical formulas.
@@ -74,27 +80,34 @@ results. Build steps are in `sigma/SIGMA_WORKBOOK.md`.
 
 ## Results (from `validation/validation_results.json`)
 
-**Incrementality.** 698,032 targeted vs 123,705 control users.
+**Incrementality, full release.** 11,882,655 targeted vs 2,096,937 control users.
 
 | Outcome | Targeted | Control | Absolute lift (95% CI) | Relative | z | Incremental |
 |---|---|---|---|---|---|---|
-| Visit | 4.845% | 3.828% | +1.017 pp (0.899 to 1.135) | +26.6% | 15.59 | ~7,101 visits |
-| Conversion | 0.303% | 0.188% | +0.115 pp (0.087 to 0.142) | +60.8% | 6.96 | ~799 conversions |
+| Visit | 4.854% | 3.820% | +1.034 pp (1.006 to 1.063) | +27.1% | 65.25 | ~122,895 visits |
+| Conversion | 0.309% | 0.194% | +0.115 pp (0.108 to 0.122) | +59.4% | 28.52 | ~13,687 conversions |
 
-**Assignment QA.** Treatment share is 84.93% to 84.97% per sample vs the 85% design.
-There is no sample-ratio mismatch (chi-square p = 0.31 to 0.64).
+The 2% samples gave +26.6% and +60.8%; the full release narrows the conversion CI about 5x.
 
-**Power.** At this sample size the minimum detectable effect (80% power) is 0.166 pp for
-visits (4.3% relative) and 0.038 pp for conversions (19.9% relative). Both observed
-lifts clear it.
+**Exposure.** Only 3.604% of targeted users were actually exposed to an ad, and no control user
+was. The effect per exposed user (Wald / complier-average estimate, ITT divided by the exposure
+rate) is +3.20 pp on conversion. Comparing exposed users with control directly gives +5.18 pp,
+which overstates the causal effect by about 60% because exposure depends on user activity.
+The Wald estimate assumes targeting has no effect on users who were never exposed.
 
-**Cross-sample sensitivity (not independent replication).** Visit lift is stable across the three samples (+23.7% to +30.6%,
+**Assignment QA.** Full release treatment share 85.00001% vs the 85% design, chi-square p = 0.999.
+Per sample: 84.93% to 84.97%, p = 0.31 to 0.64.
+
+**Cross-sample sensitivity (samples, not independent replication).** Visit lift is stable across the three samples (+23.7% to +30.6%,
 Cochran's Q p = 0.33). Conversion lift is not: it ranges from +25.6% to +97.1%
 (Q p = 0.043) because each sample has only 64 to 103 control conversions. The samples overlap (16,701 users occur in multiple samples), so the reported
 Cochran Q p-values are exploratory and do not establish independent replication.
-Use the pooled, deduplicated estimate and its CI rather than a single sample.
+Use the pooled, deduplicated estimate and its CI rather than a single sample. The full release resolves conversion lift at +59.4%.
 
-**Funnel (descriptive only).** Conversion per visitor is 6.25% targeted vs 4.92% control.
+**Power.** At full scale the minimum detectable effect (80% power) is 0.040 pp for visits (1.1%
+relative) and 0.0092 pp for conversions (4.8% relative), down from 19.9% relative on the samples.
+
+**Funnel (descriptive only).** Conversion per visitor is 6.25% targeted vs 4.92% control (samples).
 Visiting happens after assignment, so this comparison is not causal.
 
 **Campaigns.** Cost per approved conversion ranges from $6.24 (campaign 916, $150 spend)
@@ -109,23 +122,44 @@ CPA rises with every age band: ages 45-49 take 34.2% of spend but 19.4% of appro
 ($112.71 CPA), versus 26.6% of spend and 45.3% of conversions for ages 30-34 ($37.43 CPA). Both are
 recomputed independently in `validate.py`.
 
+## Orchestration
+
+`dags/ad_measurement.py` (Airflow 3.x, daily): `check_raw` (files present, expected columns,
+SHA-256 vs `raw/MANIFEST.sha256`) -> `dbt_build` -> `validate` (fails on any reconciliation
+mismatch) -> `mutation_test` (all 3 injected defects must be caught) and `export_dashboard`.
+Verified with `airflow dags test` on Airflow 3.1.8: all 5 tasks succeeded.
+
+## Dashboard
+
+`tableau/Ad_Measurement.twb` (Tableau 2026.2) reads the CSV extracts written by
+`orchestration/export_dashboard.py`: targeted vs control rates, lift readout, replication by
+sample, effect per exposed user, assignment QA, campaign cost per approved conversion, and the
+largest campaign by segment. It replaces the earlier Sigma workbook (the Sigma account is suspended).
+
 ## Verification
 
 | Check | Result |
 |---|---|
-| `dbt build` (DuckDB) | PASS=74 (17 models + 57 tests), 0 warn, 0 error |
-| `validation/validate.py`: pandas + statsmodels recomputation from the raw files, no shared code with the SQL | 0 mismatches on rates, z, CIs, campaign CTR / CPA |
-| `validation/mutation_test.sh`: inject a conflicting cross-sample duplicate, an invalid treatment code, and clicks > impressions | all 3 caught; downstream marts skipped |
-| `pytest sigma/tests`: Sigma client (mocked API) and workbook verifier | 7/7 pass; wrong numbers and missing elements are caught |
-| `validation/snowflake_dialect_check.py`: sqlglot parse of all 62 compiled model and schema-test files as Snowflake SQL | 62/62 parse, no DuckDB-only functions, no reserved-word aliases, no fixed-point divisions |
+| `dbt build` (DuckDB) | PASS=92 (22 models + 70 tests), 0 warn, 0 error |
+| `assert_samples_match_full_release` | all 821,737 sampled users match the full release at their row position |
+| `validation/validate.py`: pandas + statsmodels recomputation from the raw files, no shared code with the SQL | 0 mismatches on rates, z, CIs, exposure rate, Wald estimate, campaign CTR / CPA, CPA drivers |
+| `validation/mutation_test.sh`: inject a conflicting cross-sample duplicate, an invalid treatment code, and clicks > impressions | all 3 caught (4 failing tests: the full-release provenance test also flags the corrupted row); downstream marts skipped |
+| `airflow dags test ad_measurement` | 5/5 tasks succeeded |
+| `pytest sigma/tests business_reporting/test_reporting.py` | 11/11 pass |
+| `validation/snowflake_dialect_check.py`: sqlglot parse of all 87 compiled model and schema-test files as Snowflake SQL | 87/87 parse, no DuckDB-only functions, no reserved-word aliases, no fixed-point divisions |
+| `snowflake/verify_snowflake.py`: Snowflake marts vs `validation_results.json` | full release not yet run on Snowflake; see Known limits |
 
 ## Known limits
 
-- **Sample, not the full release.** The 821,737 users are a random ~5.9% of Criteo's
-  13.98M rows. The full file could not be downloaded in this environment. Swapping the
-  source to the full file only needs a change to `_sources.yml`.
-- **No exposure field.** The Criteo `exposure` column and the 12 covariates are not in
-  these files, so there is no segment-level or exposure-level analysis.
+- **Four columns of the full release.** The 12 anonymized covariates (f0-f11) are not loaded, so
+  there is no covariate adjustment (CUPED) or segment-level uplift on the full release.
+- **Full release on Snowflake: ready, not yet executed.** `snowflake/load_to_snowflake.py` now loads the
+  full release to `RAW.CRITEO.UPLIFT_FULL` (13,979,592 rows), and `snowflake/run_full_release.ps1` runs
+  load -> `dbt build --target snowflake` -> `snowflake/verify_snowflake.py`, which compares every
+  full-release and campaign figure in the Snowflake marts with `validation_results.json` and writes
+  `snowflake/snowflake_run.json`. The run needs the account owner's key, so it has not been executed yet;
+  the 2026-09-26 Snowflake run below covers the samples only.
+
 - **Executed on Snowflake (2026-09-26).** `load_to_snowflake.py` loaded 1,677,052 Criteo rows and
   1,143 ads using key-pair auth, and `dbt build --target snowflake` returned PASS=66 / ERROR=0.
   The Snowflake mart values match the local validation exactly: visit +26.6% (CI 0.899 to 1.135 pp),
@@ -145,6 +179,8 @@ recomputed independently in `validate.py`.
   and campaign efficiency. Querying the published elements through Sigma returned z = 15.59 / 6.96,
   lift +26.6% / +60.8%, per-sample lift 30.6 / 25.7 / 23.7% (visit), treatment share 84.93-84.97%, and
   cost per approved conversion $63.83 / $15.81 / $6.24, all matching `validation_results.json`.
+- **Sigma retired.** The Sigma account is suspended. The Sigma views, exposure and API client remain in
+  `sigma/` and `models/marts/sigma/` as a record; the dashboard of record is now Tableau.
 - p-values, SRM and replication tests are computed in Python, because a normal CDF is not
   portable across DuckDB and Snowflake SQL.
 
@@ -153,6 +189,10 @@ recomputed independently in `validate.py`.
 ```bash
 python -m pip install dbt-duckdb statsmodels sqlglot pyarrow pandas pytest requests
 bash fetch_data.sh          # Criteo sample files (~57 MB) from the pinned UpliftBench commit
+# raw/criteo_full/ is committed (19.6 MB, 4 columns). To rebuild it from the official file:
+#   download criteo-research-uplift-v2.1.csv.gz from huggingface.co/datasets/criteo/criteo-uplift
+#   python orchestration/compact_criteo.py <path/to/criteo-research-uplift-v2.1.csv.gz>
+python orchestration/check_raw.py
 dbt build --profiles-dir .
 python validation/validate.py
 bash validation/mutation_test.sh

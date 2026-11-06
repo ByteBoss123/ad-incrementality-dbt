@@ -70,3 +70,18 @@ models:
         data_tests:
           - accepted_range:
               arguments: {min_value: 0}
+
+  - name: stg_criteo__full_release
+    description: One row per user in the full Criteo Uplift v2.1 release (13,979,592 rows).
+    columns:
+      - name: criteo_row_id
+        data_tests: [unique, not_null]
+      - name: visit
+        data_tests:
+          - accepted_values: {arguments: {values: [0, 1]}}
+      - name: conversion
+        data_tests:
+          - accepted_values: {arguments: {values: [0, 1]}}
+      - name: exposure
+        data_tests:
+          - accepted_values: {arguments: {values: [0, 1]}}

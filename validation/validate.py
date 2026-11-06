@@ -126,6 +126,43 @@ for ab, r in seg.iterrows():
 out["segment_drivers_1178"] = {ab: dict(spend_share_pct=round(100 * r.spend_share, 1), conversion_share_pct=round(100 * r.conv_share, 1),
                                         cpa=round(r.cpa, 2)) for ab, r in seg.iterrows()}
 out["ads"] = len(a)
+
+# ---------- full release (13.98M users), independent of the dbt SQL ----------
+full = pd.read_parquet("raw/criteo_full/criteo_uplift_v2.1.parquet")
+fm = mart("fct_campaign_lift_full").set_index("outcome")
+out["experiment_full"] = dict(users=len(full), treated=int(full.treatment.sum()),
+                              control=int((1 - full.treatment).sum()))
+for o in ["visit", "conversion"]:
+    t, c = full[full.treatment == 1][o], full[full.treatment == 0][o]
+    pt, pc = t.mean(), c.mean()
+    z, p = proportions_ztest([t.sum(), c.sum()], [len(t), len(c)])
+    se = np.sqrt(pt * (1 - pt) / len(t) + pc * (1 - pc) / len(c))
+    check(f"full {o} t_cvr", pt, fm.loc[o, "t_cvr"]); check(f"full {o} c_cvr", pc, fm.loc[o, "c_cvr"])
+    check(f"full {o} z", z, fm.loc[o, "z_stat"], 1e-6)
+    check(f"full {o} ci_low", pt - pc - 1.959963984540054 * se, fm.loc[o, "abs_lift_ci95_low"], 1e-12)
+    out["experiment_full"][o] = dict(t_rate_pct=round(100 * pt, 4), c_rate_pct=round(100 * pc, 4),
+                                     abs_lift_pp=round(100 * (pt - pc), 4),
+                                     ci95_pp=[round(100 * (pt - pc - 1.959963984540054 * se), 4),
+                                              round(100 * (pt - pc + 1.959963984540054 * se), 4)],
+                                     rel_lift_pct=round(100 * (pt / pc - 1), 1), z=round(float(z), 2),
+                                     p_value=float(p), incremental=round(float((pt - pc) * len(t))))
+srm_full = chisquare([full.treatment.sum(), len(full) - full.treatment.sum()],
+                     [0.85 * len(full), 0.15 * len(full)])
+out["experiment_full"]["srm"] = dict(t_share_pct=round(100 * full.treatment.mean(), 5),
+                                     chi2=round(float(srm_full.statistic), 3), p_value=round(float(srm_full.pvalue), 4))
+tr = full[full.treatment == 1]
+exp_rate = tr.exposure.mean()
+fe = mart("fct_exposure_effect").iloc[0]
+check("full exposure_rate", exp_rate, fe.exposure_rate)
+check("full control exposed", int(full[full.treatment == 0].exposure.sum()), fe.c_exposed)
+cace = (tr.conversion.mean() - full[full.treatment == 0].conversion.mean()) / exp_rate
+check("full cace_conversion", cace, fe.cace_conversion, 1e-12)
+out["experiment_full"]["exposure"] = dict(exposure_rate_pct=round(100 * exp_rate, 3),
+                                          cace_conversion_pp=round(100 * cace, 3),
+                                          naive_exposed_vs_control_pp=round(100 * fe.naive_exposed_vs_control_conversion, 3))
+
 out["reconciliation_failures"] = failures
-print(json.dumps(out, indent=2, default=float))
+text = json.dumps(out, indent=2, default=float)
+open("validation/validation_results.json", "w").write(text + "\n")
+print(text)
 raise SystemExit(1 if failures else 0)

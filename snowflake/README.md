@@ -16,8 +16,18 @@ are recorded runs, not a guarantee that a cloud environment remains available.
    `SNOWFLAKE_ROLE`, and `SNOWFLAKE_WAREHOUSE` in your local environment.
 5. From the repository root, fetch the public input files with `bash fetch_data.sh`.
 6. Run `python snowflake/load_to_snowflake.py`. This overwrites the project's
-   RAW input tables; use a dedicated project environment.
+   RAW input tables; use a dedicated project environment. It loads the six sample
+   tables, the ads table and, when `raw/criteo_full/criteo_uplift_v2.1.parquet` is present
+   (committed), the full release as `RAW.CRITEO.UPLIFT_FULL` (13,979,592 rows).
 7. Run `dbt debug --profiles-dir . --target snowflake`, then
    `dbt build --profiles-dir . --target snowflake`.
+8. Run `python snowflake/verify_snowflake.py`. It reads the Snowflake marts and compares
+   14 figures (full-release rates, z, CI, users, exposure rate, Wald estimate, campaign CPA)
+   with `validation/validation_results.json`, writes `snowflake/snowflake_run.json`, and
+   exits non-zero on any mismatch.
+
+Steps 6 to 8 in one go (Windows PowerShell, repo root, env vars set):
+`powershell -ExecutionPolicy Bypass -File snowflake/run_full_release.ps1`
+(writes `snowflake/run_full_release.log`).
 
 Sigma setup is described separately in `sigma/SIGMA_WORKBOOK.md`.

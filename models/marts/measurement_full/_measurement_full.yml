@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: fct_campaign_lift_full
+    description: Incrementality readout on the full 13,979,592-user Criteo release (same lift macro as the sample marts).
+    columns:
+      - name: outcome
+        data_tests: [unique, not_null]
+      - name: t_cvr
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "t_users + c_users = 13979592"}
+  - name: fct_experiment_power_full
+    description: Minimum detectable effect at the full-release sample size.
+  - name: fct_assignment_qa_full
+    description: Treatment share on the full release vs the 85% design.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "abs(t_share - design_t_share) < 0.001"}
+  - name: fct_exposure_effect
+    description: >
+      Exposure rate among treated users and the complier-average (Wald) effect per exposed user.
+      The naive exposed-vs-control difference is descriptive only.
+    data_tests:
+      - expression_is_true:
+          arguments: {expression: "c_exposed = 0"}
+      - expression_is_true:
+          arguments: {expression: "exposure_rate > 0 and exposure_rate <= 1"}

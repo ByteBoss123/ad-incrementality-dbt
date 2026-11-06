@@ -144,5 +144,46 @@
     }
   },
   "ads": 1143,
+  "experiment_full": {
+    "users": 13979592,
+    "treated": 11882655,
+    "control": 2096937,
+    "visit": {
+      "t_rate_pct": 4.8543,
+      "c_rate_pct": 3.8201,
+      "abs_lift_pp": 1.0342,
+      "ci95_pp": [
+        1.0056,
+        1.0629
+      ],
+      "rel_lift_pct": 27.1,
+      "z": 65.25,
+      "p_value": 0.0,
+      "incremental": 122895
+    },
+    "conversion": {
+      "t_rate_pct": 0.3089,
+      "c_rate_pct": 0.1938,
+      "abs_lift_pp": 0.1152,
+      "ci95_pp": [
+        0.1085,
+        0.1219
+      ],
+      "rel_lift_pct": 59.4,
+      "z": 28.52,
+      "p_value": 7.30826328583868e-179,
+      "incremental": 13687
+    },
+    "srm": {
+      "t_share_pct": 85.00001,
+      "chi2": 0.0,
+      "p_value": 0.9989
+    },
+    "exposure": {
+      "exposure_rate_pct": 3.604,
+      "cace_conversion_pp": 3.196,
+      "naive_exposed_vs_control_pp": 5.185
+    }
+  },
   "reconciliation_failures": []
 }
