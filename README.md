@@ -24,15 +24,16 @@ only trustworthy if the data, the statistics and the reporting layer are all tes
 2. **Modeled a tested dbt layer:** 22 models with 70 data tests across staging, intermediate, marts and Sigma-facing views; all lift math lives in one macro so every readout uses identical formulas.
 3. **Built experiment QA into the models:** sample-ratio checks, minimum detectable effect at 80% power, a readability guardrail for small slices, an exposure (complier) analysis, and a test that every sampled row matches the full release.
 4. **Decomposed campaign efficiency:** split each campaign's cost-per-conversion gap into click cost (CPC) versus click-to-conversion rate, and profiled spend and conversions by age band.
-5. **Deployed to Snowflake and Sigma, then Tableau:** loaded the samples with key-pair auth, ran `dbt build` on Snowflake, and published a Sigma workbook (since retired); the full-release Snowflake run is scripted (`snowflake/run_full_release.ps1`); orchestrated in Airflow with a Tableau dashboard.
+5. **Deployed to Snowflake and Sigma, then Tableau:** loaded the samples with key-pair auth, ran `dbt build` on Snowflake, and published a Sigma workbook (since retired); then ran the full release on Snowflake (`snowflake/run_full_release.ps1`); orchestrated in Airflow with a Tableau dashboard.
 6. **Verified every number independently:** recomputed all results in pandas/statsmodels with no shared code, and ran mutation tests that inject bad data to prove the tests catch it.
 
 ## Achievements
 - Measured **+27.1% visits and +59.4% conversions** caused by the ads on the full 13.98M-user release (z = 65.25 / 28.52), with no sample-ratio mismatch (p = 0.999).
 - Only **3.6%** of targeted users were exposed; the effect per exposed user is **+3.20 pp** on conversion, and the naive exposed-vs-control comparison overstates it by about 60%.
 - Found a **10x cost-per-conversion gap**: **93%** of it comes from click-to-conversion rate, not click cost; ages 45-49 take **34%** of the top campaign's spend at **3x** the CPA of ages 30-34.
-- **Caught and fixed a Snowflake precision bug** (fixed-point division) that inflated z-scores by about 3%, and added an automated check that blocks it from coming back.
-- `dbt build` passes locally (PASS=92) and passed on Snowflake for the sample models (PASS=66, 2026-09-26); the independent Python recompute matches with **0 mismatches**.
+- **Caught and fixed a Snowflake precision bug** (fixed-point division) that inflated visit z-scores by about 3%, and added an automated check that blocks it from coming back.
+- Ran the full 13.98M-user release on **Snowflake** (`dbt build` PASS=92); all 14 checked Snowflake values match an independent pandas recompute.
+- **Caught a second Snowflake precision bug** (`AVG` on integers keeps 6 decimals) through that cross-check, and added a static check that blocks it.
 
 ## Data (real-world, public)
 
@@ -146,20 +147,24 @@ largest campaign by segment. It replaces the earlier Sigma workbook (the Sigma a
 | `validation/mutation_test.sh`: inject a conflicting cross-sample duplicate, an invalid treatment code, and clicks > impressions | all 3 caught (4 failing tests: the full-release provenance test also flags the corrupted row); downstream marts skipped |
 | `airflow dags test ad_measurement` | 5/5 tasks succeeded |
 | `pytest sigma/tests business_reporting/test_reporting.py` | 11/11 pass |
-| `validation/snowflake_dialect_check.py`: sqlglot parse of all 87 compiled model and schema-test files as Snowflake SQL | 87/87 parse, no DuckDB-only functions, no reserved-word aliases, no fixed-point divisions |
-| `snowflake/verify_snowflake.py`: Snowflake marts vs `validation_results.json` | full release not yet run on Snowflake; see Known limits |
+| `validation/snowflake_dialect_check.py`: sqlglot parse of all 87 compiled model and schema-test files as Snowflake SQL | 87/87 parse, no DuckDB-only functions, no reserved-word aliases, no fixed-point divisions or uncast `AVG` |
+| Full release on Snowflake (2026-11-06): `load_to_snowflake.py` + `dbt build --target snowflake` | 13,979,592 rows loaded to `RAW.CRITEO.UPLIFT_FULL`; PASS=92, 0 warn, 0 error |
+| `snowflake/verify_snowflake.py`: Snowflake marts vs `validation_results.json` | 14/14 match (rates, z, CI, users, exposure rate, Wald estimate, campaign CPA); `snowflake/snowflake_run.json` |
 
 ## Known limits
 
 - **Four columns of the full release.** The 12 anonymized covariates (f0-f11) are not loaded, so
   there is no covariate adjustment (CUPED) or segment-level uplift on the full release.
-- **Full release on Snowflake: ready, not yet executed.** `snowflake/load_to_snowflake.py` now loads the
-  full release to `RAW.CRITEO.UPLIFT_FULL` (13,979,592 rows), and `snowflake/run_full_release.ps1` runs
-  load -> `dbt build --target snowflake` -> `snowflake/verify_snowflake.py`, which compares every
-  full-release and campaign figure in the Snowflake marts with `validation_results.json` and writes
-  `snowflake/snowflake_run.json`. The run needs the account owner's key, so it has not been executed yet;
-  the 2026-09-26 Snowflake run below covers the samples only.
-
+- **Full release on Snowflake (2026-11-06).** `load_to_snowflake.py` loaded all 13,979,592 rows to
+  `RAW.CRITEO.UPLIFT_FULL` with key-pair auth, and `dbt build --target snowflake` returned PASS=92 / ERROR=0.
+  `verify_snowflake.py` then compared 14 Snowflake mart values with the independent pandas results:
+  visit +27.1% (z = 65.25), conversion +59.4% (z = 28.52), exposure rate 3.604%, effect per exposed user
+  +3.196 pp, cost per approved conversion $6.24 / $15.81 / $63.83. All 14 match (`snowflake/snowflake_run.json`).
+- **Second Snowflake precision bug, found by that check.** The first full-release run passed `dbt build`
+  but failed 1 of 14 checks: the effect per exposed user was 3.1940 pp on Snowflake vs 3.1964 pp in pandas.
+  `AVG` over an integer column returns NUMBER with 6 decimals on Snowflake, which truncated the arm conversion
+  rates (~0.003) before the difference was taken. `fct_exposure_effect` now averages doubles, the rerun matched
+  exactly, and `snowflake_dialect_check.py` fails on any uncast `AVG`.
 - **Executed on Snowflake (2026-09-26).** `load_to_snowflake.py` loaded 1,677,052 Criteo rows and
   1,143 ads using key-pair auth, and `dbt build --target snowflake` returned PASS=66 / ERROR=0.
   The Snowflake mart values match the local validation exactly: visit +26.6% (CI 0.899 to 1.135 pp),

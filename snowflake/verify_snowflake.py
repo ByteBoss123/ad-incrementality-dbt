@@ -54,8 +54,7 @@ check("full.cace_conversion_pp", 100 * cace, V["experiment_full"]["exposure"]["c
 for cid, cpa in q(f"select campaign_id, cost_per_approved_conversion_usd from {schema}.AGG_CAMPAIGN_PERFORMANCE"):
     check(f"campaign.{cid}.cpa", cpa, V["campaigns"][str(cid)]["cost_per_approved_conv"], 0.005)
 
-out = {"checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "account": os.environ["SNOWFLAKE_ACCOUNT"],
-       "checks": len(got), "mismatches": fails, "values": got}
+out = {"checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "checks": len(got), "mismatches": fails, "values": got}
 (ROOT / "snowflake/snowflake_run.json").write_text(json.dumps(out, indent=1, default=float))
 print(f"{len(got)} checks, {len(fails)} mismatches")
 print("\n".join(fails))

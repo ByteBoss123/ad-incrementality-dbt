@@ -1,0 +1,69 @@
+{
+ "checked_at": "2026-11-06T22:14:34+00:00",
+ "checks": 14,
+ "mismatches": [],
+ "values": {
+  "full.visit.t_rate_pct": {
+   "snowflake": 4.854336004874331,
+   "validation": 4.8543
+  },
+  "full.visit.c_rate_pct": {
+   "snowflake": 3.8200956919545033,
+   "validation": 3.8201
+  },
+  "full.visit.z": {
+   "snowflake": 65.24742956249247,
+   "validation": 65.25
+  },
+  "full.visit.ci_low_pp": {
+   "snowflake": 1.0055628213713732,
+   "validation": 1.0056
+  },
+  "full.conversion.t_rate_pct": {
+   "snowflake": 0.30894610674129647,
+   "validation": 0.3089
+  },
+  "full.conversion.c_rate_pct": {
+   "snowflake": 0.19375880152813366,
+   "validation": 0.1938
+  },
+  "full.conversion.z": {
+   "snowflake": 28.516529408977203,
+   "validation": 28.52
+  },
+  "full.conversion.ci_low_pp": {
+   "snowflake": 0.10845057902364738,
+   "validation": 0.1085
+  },
+  "full.users": {
+   "snowflake": 13979592,
+   "validation": 13979592
+  },
+  "full.exposure_rate_pct": {
+   "snowflake": 3.6036727482199895,
+   "validation": 3.604
+  },
+  "full.cace_conversion_pp": {
+   "snowflake": 3.1963863885825594,
+   "validation": 3.196
+  },
+  "campaign.916.cpa": {
+   "snowflake": 6.237916666666667,
+   "validation": 6.24
+  },
+  "campaign.936.cpa": {
+   "snowflake": 15.810765027322404,
+   "validation": 15.81
+  },
+  "campaign.1178.cpa": {
+   "snowflake": 63.83274082568808,
+   "validation": 63.83
+  }
+ },
+ "dbt_build": "PASS=92 WARN=0 ERROR=0 (dbt 1.12.5, dbt-snowflake 1.12.1)",
+ "raw_loaded": {
+  "RAW.CRITEO.UPLIFT_FULL": 13979592,
+  "RAW.CRITEO samples": 1677052,
+  "RAW.ADS.KAG_CONVERSION_DATA": 1143
+ }
+}
