@@ -1,0 +1,12 @@
+// Create each measure separately in Power BI Desktop. Draft, not engine-validated.
+Ad Count = COUNTROWS(Ads)
+Spend = SUM(Ads[Spent])
+Impressions = SUM(Ads[Impressions])
+Clicks = SUM(Ads[Clicks])
+Total Conversions = SUM(Ads[Total_Conversion])
+Approved Conversions = SUM(Ads[Approved_Conversion])
+CTR = DIVIDE([Clicks], [Impressions])
+CPC = DIVIDE([Spend], [Clicks])
+Cost per Approved Conversion = DIVIDE([Spend], [Approved Conversions])
+Approval Share = DIVIDE([Approved Conversions], [Total Conversions])
+Spend Share of Selected Campaigns = DIVIDE([Spend], CALCULATE([Spend], ALLSELECTED(Campaigns)))

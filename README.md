@@ -1,6 +1,16 @@
 # Ad Incrementality & Campaign Performance Analytics Warehouse
 
-**Stack:** dbt, Snowflake, Sigma, SQL, Python (DuckDB for local runs)
+**Stack:** dbt, Snowflake, SQL, Python; reporting in Tableau, Power BI, Excel and Sigma (DuckDB for local runs)
+
+**Campaign reporting:** [Tableau workbook](business_reporting/tableau/campaign_dashboard.twb), [Power BI project](business_reporting/powerbi/project/pxpx.pbip), and [Excel PivotTable workbook](business_reporting/excel/campaign_reporting_pivot.xlsx). Download the repository to keep each project and its data together. [Setup and validation status](business_reporting/README.md).
+
+| Reporting tool | Artifact | Verification status |
+|---|---|---|
+| Tableau | Campaign table, spend and CPA charts, age/gender filters | Existing repository notes record a Desktop 2026.2 check; portable source path and CSV checked locally |
+| Power BI | Two pages, 16 visuals including slicers, two-table model, 10 DAX measures | Report JSON/schema and source checks passed; Desktop refresh/render still pending |
+| Excel | Formula report and native PivotTable | Existing repository notes record desktop reconciliation; VBA execution pending |
+| Sigma | Existing Snowflake-connected workbook | Prior publication and verification documented below |
+
 
 ## Business Problem
 An advertiser spending on paid media needs two answers: **did the ads actually cause extra visits and
