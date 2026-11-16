@@ -7,3 +7,5 @@ raw/criteo/
 __pycache__/
 *.pyc
 snowflake/run_full_release.log
+.duckdb_tmp/
+criteo.csv.gz
