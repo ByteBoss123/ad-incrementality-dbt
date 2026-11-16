@@ -123,6 +123,33 @@ CPA rises with every age band: ages 45-49 take 34.2% of spend but 19.4% of appro
 ($112.71 CPA), versus 26.6% of spend and 45.3% of conversions for ages 30-34 ($37.43 CPA). Both are
 recomputed independently in `validate.py`.
 
+## Variance reduction (CUPED) and segment effects, run in BigQuery
+
+`variance_reduction/cuped_segments.py` (DuckDB + numpy) and `bigquery/` (BigQuery ML + SQL) read the
+official file with all 12 features (f0-f11). Each fits the outcome on the features, uses the fitted
+value as the CUPED covariate, and splits users into deciles of that predicted baseline. Both ran on all
+13,979,592 rows on 2026-11-16 (source SHA-256 matched); `bigquery/compare.py` matched them on 57/57
+checks, to about 1e-14. Results: `results/variance_reduction.json`, `results/bigquery_comparison.json`.
+
+| Outcome | Raw lift (SE) | CUPED lift (SE) | Variance removed |
+|---|---|---|---|
+| Visit | +1.034 pp (0.0146) | +0.698 pp (0.0127) | 25.2% |
+| Conversion | +0.115 pp (0.0034) | +0.092 pp (0.0032) | 10.7% |
+
+**The balance check changes how to read this.** CUPED should cut variance without moving the estimate.
+Here it also moved the visit lift down by a third, because the features are not balanced between arms:
+the largest standardized mean difference is 0.049 (f3), against about 0.00075 expected from chance at this
+sample size. The imbalance is small in absolute terms but far beyond chance at 14M rows, and the features
+predict the outcome strongly, so adjusting for them shifts the estimate. Which estimate is right depends
+on when f0-f11 were recorded, which the public documentation does not settle. The raw randomized
+difference stays the headline figure; the CUPED figure is reported alongside it with this caveat.
+
+**Segments.** The effect differs sharply by predicted baseline (Cochran's Q = 3,042 on 9 df for visits,
+597 for conversions; both p < 1e-100). Absolute visit lift runs from +0.02 pp in decile 3 to +5.1 pp in
+decile 10, where 31% of control users already visit; relative lift stays between 17% and 38% in every
+decile. Conversion lift is not distinguishable from zero in deciles 2-4. Deciles are of the outcome
+model's prediction, so these are descriptive cuts of an imbalanced covariate, not a targeting policy.
+
 ## Orchestration
 
 `dags/ad_measurement.py` (Airflow 3.x, daily): `check_raw` (files present, expected columns,
@@ -150,11 +177,14 @@ largest campaign by segment. It replaces the earlier Sigma workbook (the Sigma a
 | `validation/snowflake_dialect_check.py`: sqlglot parse of all 87 compiled model and schema-test files as Snowflake SQL | 87/87 parse, no DuckDB-only functions, no reserved-word aliases, no fixed-point divisions or uncast `AVG` |
 | Full release on Snowflake (2026-11-06): `load_to_snowflake.py` + `dbt build --target snowflake` | 13,979,592 rows loaded to `RAW.CRITEO.UPLIFT_FULL`; PASS=92, 0 warn, 0 error |
 | `snowflake/verify_snowflake.py`: Snowflake marts vs `validation_results.json` | 14/14 match (rates, z, CI, users, exposure rate, Wald estimate, campaign CPA); `snowflake/snowflake_run.json` |
+| `variance_reduction/test_cuped_segments.py`: planted effect, planted explained variance and planted heterogeneity on synthetic data | 6/6 pass |
+| `bigquery/compare.py`: BigQuery ML + SQL vs DuckDB + numpy on the full release (2026-11-16, Cloud Shell) | 57/57 match (rows, rates, CUPED lift and SE, variance reduction, 20 decile counts and lifts) |
 
 ## Known limits
 
-- **Four columns of the full release.** The 12 anonymized covariates (f0-f11) are not loaded, so
-  there is no covariate adjustment (CUPED) or segment-level uplift on the full release.
+- **Four columns in the committed parquet.** The dbt layer still uses only the four flags. CUPED and
+  segment effects read f0-f11 from the official file directly (see the section above); the features are
+  imbalanced between arms (max SMD 0.049), so the CUPED estimate carries the caveat stated there.
 - **Full release on Snowflake (2026-11-06).** `load_to_snowflake.py` loaded all 13,979,592 rows to
   `RAW.CRITEO.UPLIFT_FULL` with key-pair auth, and `dbt build --target snowflake` returned PASS=92 / ERROR=0.
   `verify_snowflake.py` then compared 14 Snowflake mart values with the independent pandas results:

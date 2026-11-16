@@ -1,0 +1,463 @@
+{
+  "passed": true,
+  "n_checks": 57,
+  "failures": [],
+  "checks": [
+    {
+      "check": "rows",
+      "duckdb": 13979592,
+      "bigquery": 13979592,
+      "diff": 0.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "check": "visit n_treated",
+      "duckdb": 11882655,
+      "bigquery": 11882655,
+      "diff": 0.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "check": "visit n_control",
+      "duckdb": 2096937,
+      "bigquery": 2096937,
+      "diff": 0.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "check": "visit rate_treated",
+      "duckdb": 0.048543360048743316,
+      "bigquery": 0.04854336004874335,
+      "diff": 3.469446951953614e-17,
+      "tol": 1e-12,
+      "ok": true
+    },
+    {
+      "check": "visit rate_control",
+      "duckdb": 0.03820095691954503,
+      "bigquery": 0.03820095691954504,
+      "diff": 6.938893903907228e-18,
+      "tol": 1e-12,
+      "ok": true
+    },
+    {
+      "check": "visit raw se",
+      "duckdb": 0.00014631645066032765,
+      "bigquery": 0.00014631645066032716,
+      "diff": 3.334491613325911e-15,
+      "tol": 1e-09,
+      "ok": true
+    },
+    {
+      "check": "visit cuped lift",
+      "duckdb": 0.006979598240181059,
+      "bigquery": 0.006979598240180122,
+      "diff": 9.367506770274758e-16,
+      "tol": 1e-06,
+      "ok": true
+    },
+    {
+      "check": "visit cuped se",
+      "duckdb": 0.00012655800962537027,
+      "bigquery": 0.00012655800962537044,
+      "diff": 1.2850259446575888e-15,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "check": "visit variance reduction",
+      "duckdb": 0.25184263227978,
+      "bigquery": 0.2518426322797731,
+      "diff": 6.8833827526759706e-15,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "check": "visit decile 1 n",
+      "duckdb": 1397960,
+      "bigquery": 1397960,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 1 lift",
+      "duckdb": 0.0012252746237042247,
+      "bigquery": 0.0012252746237042204,
+      "diff": 4.336808689942018e-18,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 2 n",
+      "duckdb": 1397960,
+      "bigquery": 1397960,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 2 lift",
+      "duckdb": 0.0010330537042807443,
+      "bigquery": 0.0010330537042807435,
+      "diff": 8.673617379884035e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 3 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 3 lift",
+      "duckdb": 0.00019494374940863112,
+      "bigquery": 0.00019494374940863036,
+      "diff": 7.589415207398531e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 4 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 4 lift",
+      "duckdb": 0.0003255443148457741,
+      "bigquery": 0.0003255443148457726,
+      "diff": 1.5178830414797062e-18,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 5 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 5 lift",
+      "duckdb": 0.0005267409023524735,
+      "bigquery": 0.0005267409023524718,
+      "diff": 1.734723475976807e-18,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 6 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 6 lift",
+      "duckdb": 0.0005951164249404974,
+      "bigquery": 0.0005951164249404966,
+      "diff": 8.673617379884035e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 7 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 7 lift",
+      "duckdb": 0.0017469312001735203,
+      "bigquery": 0.001746931200173516,
+      "diff": 4.336808689942018e-18,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 8 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 8 lift",
+      "duckdb": 0.004861766742038327,
+      "bigquery": 0.004861766742038316,
+      "diff": 1.0408340855860843e-17,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 9 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 9 lift",
+      "duckdb": 0.016542741751295983,
+      "bigquery": 0.016542741751296004,
+      "diff": 2.0816681711721685e-17,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 10 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "visit decile 10 lift",
+      "duckdb": 0.05102300187376718,
+      "bigquery": 0.05102300187376746,
+      "diff": 2.7755575615628914e-16,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion n_treated",
+      "duckdb": 11882655,
+      "bigquery": 11882655,
+      "diff": 0.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "check": "conversion n_control",
+      "duckdb": 2096937,
+      "bigquery": 2096937,
+      "diff": 0.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "check": "conversion rate_treated",
+      "duckdb": 0.0030894610674129645,
+      "bigquery": 0.003089461067412963,
+      "diff": 1.3010426069826053e-18,
+      "tol": 1e-12,
+      "ok": true
+    },
+    {
+      "check": "conversion rate_control",
+      "duckdb": 0.0019375880152813366,
+      "bigquery": 0.0019375880152813366,
+      "diff": 0.0,
+      "tol": 1e-12,
+      "ok": true
+    },
+    {
+      "check": "conversion raw se",
+      "duckdb": 3.4371690289992816e-05,
+      "bigquery": 3.4371690289992735e-05,
+      "diff": 2.365759793898976e-15,
+      "tol": 1e-09,
+      "ok": true
+    },
+    {
+      "check": "conversion cuped lift",
+      "duckdb": 0.0009158322964701393,
+      "bigquery": 0.0009158322964703219,
+      "diff": 1.8257964584655895e-16,
+      "tol": 1e-06,
+      "ok": true
+    },
+    {
+      "check": "conversion cuped se",
+      "duckdb": 3.248769855761526e-05,
+      "bigquery": 3.248769855761551e-05,
+      "diff": 7.717436553489032e-15,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "check": "conversion variance reduction",
+      "duckdb": 0.10662023006630206,
+      "bigquery": 0.10662023006628407,
+      "diff": 1.7985612998927536e-14,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 1 n",
+      "duckdb": 1397960,
+      "bigquery": 1397960,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 1 lift",
+      "duckdb": 0.0002949255768181584,
+      "bigquery": 0.00029492557681815815,
+      "diff": 2.710505431213761e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 2 n",
+      "duckdb": 1397960,
+      "bigquery": 1397960,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 2 lift",
+      "duckdb": 6.865819646057557e-05,
+      "bigquery": 6.865819646057497e-05,
+      "diff": 5.963111948670274e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 3 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 3 lift",
+      "duckdb": 3.74724852007086e-05,
+      "bigquery": 3.747248520070841e-05,
+      "diff": 1.8973538018496328e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 4 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 4 lift",
+      "duckdb": 1.931444241394089e-05,
+      "bigquery": 1.9314442413940604e-05,
+      "diff": 2.846030702774449e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 5 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 5 lift",
+      "duckdb": 5.504419870682489e-05,
+      "bigquery": 5.5044198706824646e-05,
+      "diff": 2.439454888092385e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 6 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 6 lift",
+      "duckdb": 0.00012798215097236317,
+      "bigquery": 0.00012798215097236304,
+      "diff": 1.3552527156068805e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 7 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 7 lift",
+      "duckdb": 0.0001483327157090425,
+      "bigquery": 0.00014833271570904215,
+      "diff": 3.5236570605778894e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 8 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 8 lift",
+      "duckdb": 0.00022298418961873778,
+      "bigquery": 0.0002229841896187369,
+      "diff": 8.673617379884035e-19,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 9 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 9 lift",
+      "duckdb": 0.0007406570140861526,
+      "bigquery": 0.0007406570140861509,
+      "diff": 1.734723475976807e-18,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 10 n",
+      "duckdb": 1397959,
+      "bigquery": 1397959,
+      "diff": 0.0,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "check": "conversion decile 10 lift",
+      "duckdb": 0.007663698001286551,
+      "bigquery": 0.00766369800128654,
+      "diff": 1.0408340855860843e-17,
+      "tol": 0.0005,
+      "ok": true
+    }
+  ]
+}
