@@ -21,6 +21,7 @@ cd "$(dirname "$0")/.."
 mkdir -p results
 
 echo "Project: $PROJECT  dataset: $DATASET  bucket: gs://$BUCKET"
+if [ "${SKIP_LOAD:-0}" != "1" ]; then
 gsutil ls -b "gs://$BUCKET" >/dev/null 2>&1 || gsutil mb -l "$LOCATION" "gs://$BUCKET"
 gsutil -q cp -n "$SRC" "gs://$BUCKET/criteo-research-uplift-v2.1.csv.gz"
 bq --location="$LOCATION" show "$PROJECT:$DATASET" >/dev/null 2>&1 || bq --location="$LOCATION" mk -d "$PROJECT:$DATASET"
@@ -28,6 +29,7 @@ bq --location="$LOCATION" show "$PROJECT:$DATASET" >/dev/null 2>&1 || bq --locat
 bq load --replace --source_format=CSV --skip_leading_rows=1 "$DATASET.criteo_full" \
   "gs://$BUCKET/criteo-research-uplift-v2.1.csv.gz" \
   f0:FLOAT64,f1:FLOAT64,f2:FLOAT64,f3:FLOAT64,f4:FLOAT64,f5:FLOAT64,f6:FLOAT64,f7:FLOAT64,f8:FLOAT64,f9:FLOAT64,f10:FLOAT64,f11:FLOAT64,treatment:INT64,conversion:INT64,visit:INT64,exposure:INT64
+fi
 
 q() { bq query --use_legacy_sql=false --format=json --max_rows=1000 "$@"; }
 
